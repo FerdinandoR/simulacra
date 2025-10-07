@@ -1,1 +1,36 @@
-# Placeholder for pyproject.toml
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "simulacra"
+version = "0.1.0"
+description = "Synthetic patient data generation. Useful to train AI models to be used for health and longevity applications. Synthetic data generation is still in its infancy, therefore synthetic data should NOT be used to validate the models or to infer their performance on real data."
+readme = "README.md"
+requires-python = ">=3.8"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Ferdinando Randisi" }
+]
+dependencies = [
+  "numpy",
+  "pandas",
+  "scikit-learn",
+  "faker",
+  "pyyaml",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest",
+  "pytest-cov",
+  "black",
+  "ruff",
+  "mypy",
+]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.setuptools.packages.find]
+include = ["simulacra", "simulacra.*"]
