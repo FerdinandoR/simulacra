@@ -884,3 +884,192 @@ The function will save the plot as `hannum_distribution_fits.png` and print the 
 
 ---
 
+_**User (2025-10-08 18:24Z)**_
+
+Within the same cell, add code outside of the function to show the generated plots
+
+---
+
+_**Assistant (default)**_
+
+I'll add code to display the generated plots outside the function. Let me update the cell to include plot visualization:
+
+
+---
+
+Tool use: **edit_notebook**
+
+
+<details><summary>Edit file: data_synthesis_hannum.ipynb</summary>
+
+**Chunk 1**
+Lines added: 28, lines removed: 1
+
+```diff
+@@ -84,3 +84,30 @@
+  print("\nMSE scores for different distribution fits:")
+  for dist_name, error in mse.items():
+-     print(f"{dist_name}: MSE = {error:.6f}")
++     print(f"{dist_name}: MSE = {error:.6f}")
++ 
++ # Display the generated plots
++ print("\nGenerated plots:")
++ print("1. Distribution fitting comparison plot (saved as hannum_distribution_fits.png)")
++ print("2. Sample data KDE plot (displayed above)")
++ 
++ # Show a summary of the best performing distribution
++ best_dist = min(mse.items(), key=lambda x: x[1])
++ print(f"\nBest performing distribution: {best_dist[0]} (MSE = {best_dist[1]:.6f})")
++ 
++ # Optional: Create a simple bar chart of MSE scores for easy comparison
++ plt.figure(figsize=(8, 5))
++ distributions = list(mse.keys())
++ mse_values = list(mse.values())
++ bars = plt.bar(distributions, mse_values, color=['skyblue', 'lightcoral', 'lightgreen', 'gold'])
++ plt.title('MSE Comparison Across Distribution Types')
++ plt.xlabel('Distribution Type')
++ plt.ylabel('Mean Squared Error')
++ plt.xticks(rotation=45)
++ 
++ # Add value labels on bars
++ for bar, value in zip(bars, mse_values):
++     plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(mse_values)*0.01, 
++              f'{value:.6f}', ha='center', va='bottom', fontsize=9)
++ 
++ plt.tight_layout()
++ plt.show()
+```
+
+</details>
+
+---
+
+Perfect! I've added comprehensive plot visualization code outside the function. Here's what the new additions provide:
+
+## **New Plot Features:**
+
+1. **Plot Summary**: Lists all generated plots with descriptions
+2. **Best Performance Analysis**: Automatically identifies and displays the best performing distribution
+3. **MSE Comparison Bar Chart**: A visual comparison of all MSE scores with:
+   - Color-coded bars for easy distinction
+   - Exact MSE values labeled on each bar
+   - Rotated x-axis labels for better readability
+   - Professional formatting with tight layout
+
+## **What You'll See:**
+
+1. **Original plots** (from the function):
+   - Sample data KDE plot
+   - Distribution fitting comparison plot (saved as PNG)
+
+2. **New visualization**:
+   - MSE comparison bar chart showing relative performance
+   - Clear identification of the best performing distribution
+   - Summary text describing all generated plots
+
+## **Benefits:**
+
+- **Visual Comparison**: Easy to see which distribution performs best at a glance
+- **Quantitative Analysis**: Exact MSE values displayed on the bar chart
+- **Complete Overview**: Summary of all plots generated in the cell
+- **Professional Presentation**: Clean, well-formatted visualizations
+
+The bar chart will make it immediately clear which distribution (norm, gaussian_kde, truncnorm, or gamma) has the lowest MSE and therefore best fits the data.
+
+---
+
+_**User (2025-10-08 18:24Z)**_
+
+This is wrong, because you are generating the plots from scartch. Instead, you should display the plot saved to plot_filename
+
+---
+
+_**Assistant (default)**_
+
+You're absolutely right! I should display the saved plot file instead of generating new plots. Let me fix that:
+
+
+---
+
+Tool use: **edit_notebook**
+
+
+<details><summary>Edit file: data_synthesis_hannum.ipynb</summary>
+
+**Chunk 1**
+Lines added: 10, lines removed: 17
+
+```diff
+@@ -95,19 +95,12 @@
+  print(f"\nBest performing distribution: {best_dist[0]} (MSE = {best_dist[1]:.6f})")
+  
+- # Optional: Create a simple bar chart of MSE scores for easy comparison
+- plt.figure(figsize=(8, 5))
+- distributions = list(mse.keys())
+- mse_values = list(mse.values())
+- bars = plt.bar(distributions, mse_values, color=['skyblue', 'lightcoral', 'lightgreen', 'gold'])
+- plt.title('MSE Comparison Across Distribution Types')
+- plt.xlabel('Distribution Type')
+- plt.ylabel('Mean Squared Error')
+- plt.xticks(rotation=45)
+- 
+- # Add value labels on bars
+- for bar, value in zip(bars, mse_values):
+-     plt.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(mse_values)*0.01, 
+-              f'{value:.6f}', ha='center', va='bottom', fontsize=9)
+- 
+- plt.tight_layout()
+- plt.show()
++ # Display the saved plot
++ from IPython.display import Image, display
++ import os
++ 
++ plot_filename = 'hannum_distribution_fits.png'
++ if os.path.exists(plot_filename):
++     print(f"\nDisplaying saved plot: {plot_filename}")
++     display(Image(plot_filename))
++ else:
++     print(f"\nPlot file {plot_filename} not found.")
+```
+
+</details>
+
+---
+
+Perfect! Now the code correctly displays the saved plot instead of generating new plots from scratch. Here's what the updated code does:
+
+## **Corrected Approach:**
+
+1. **Displays the saved plot**: Uses `IPython.display.Image()` to show the PNG file that was saved by the function
+2. **File verification**: Checks if the plot file exists before trying to display it
+3. **Clean output**: Shows the actual plot that was generated and saved by the `fit_distributions()` function
+
+## **What You'll See:**
+
+1. **MSE scores** printed for all distributions
+2. **Best performing distribution** identified and displayed
+3. **The actual saved plot** (`hannum_distribution_fits.png`) displayed inline in the notebook
+4. **Confirmation message** showing which plot file is being displayed
+
+This approach is much better because:
+- **No duplication**: Shows the exact same plot that was saved
+- **Efficient**: Doesn't regenerate plots unnecessarily  
+- **Consistent**: Displays the plot with the exact same styling and data as saved
+- **Verifiable**: Confirms the file was actually created and can be displayed
+
+The saved plot will show the histogram of the original data overlaid with the fitted distribution curves, exactly as generated by the function.
+
+---
+
+_**User (2025-10-08 18:24Z)**_
+
+Move the function to utils.py
+
+---
+
+_**Assistant (default)**_
+
+
+
+---
+
