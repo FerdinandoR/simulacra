@@ -172,3 +172,8 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+# Data files (synthesizer results, embeddings, etc.)
+data/
+*.pkl
+*.pickle
