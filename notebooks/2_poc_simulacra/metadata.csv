@@ -1,0 +1,690 @@
+,disease,age,sex,smoking
+GSM1051525,rheumatoid arthritis,67.0,1,current
+GSM1051526,rheumatoid arthritis,49.0,1,current
+GSM1051527,rheumatoid arthritis,53.0,1,ex
+GSM1051528,rheumatoid arthritis,62.0,1,current
+GSM1051529,rheumatoid arthritis,33.0,1,never
+GSM1051530,rheumatoid arthritis,59.0,1,current
+GSM1051531,rheumatoid arthritis,66.0,1,never
+GSM1051532,rheumatoid arthritis,51.0,1,ex
+GSM1051533,Normal,55.0,2,current
+GSM1051534,Normal,37.0,2,never
+GSM1051535,Normal,31.0,2,na
+GSM1051536,Normal,59.0,2,ex
+GSM1051537,Normal,49.0,2,ex
+GSM1051538,Normal,47.0,2,ex
+GSM1051539,Normal,69.0,2,never
+GSM1051540,Normal,68.0,2,occasional
+GSM1051541,Normal,69.0,2,current
+GSM1051542,Normal,66.0,2,current
+GSM1051543,Normal,58.0,2,current
+GSM1051544,Normal,62.0,2,ex
+GSM1051545,Normal,53.0,2,ex
+GSM1051546,rheumatoid arthritis,53.0,2,ex
+GSM1051547,rheumatoid arthritis,53.0,2,occasional
+GSM1051548,rheumatoid arthritis,48.0,2,never
+GSM1051549,Normal,42.0,1,occasional
+GSM1051550,Normal,58.0,1,current
+GSM1051551,Normal,67.0,1,ex
+GSM1051552,Normal,60.0,1,current
+GSM1051553,Normal,62.0,1,current
+GSM1051554,rheumatoid arthritis,49.0,2,ex
+GSM1051555,Normal,61.0,1,never
+GSM1051556,Normal,58.0,1,current
+GSM1051557,Normal,54.0,1,ex
+GSM1051558,Normal,32.0,1,occasional
+GSM1051559,Normal,55.0,1,current
+GSM1051560,Normal,52.0,1,never
+GSM1051561,Normal,63.0,1,current
+GSM1051562,Normal,55.0,1,occasional
+GSM1051563,Normal,31.0,1,never
+GSM1051564,Normal,54.0,1,ex
+GSM1051565,Normal,51.0,1,current
+GSM1051566,Normal,53.0,1,current
+GSM1051567,Normal,37.0,1,ex
+GSM1051568,Normal,48.0,1,never
+GSM1051569,Normal,31.0,1,occasional
+GSM1051570,Normal,58.0,1,never
+GSM1051571,Normal,36.0,1,current
+GSM1051572,Normal,69.0,1,current
+GSM1051573,Normal,42.0,1,current
+GSM1051574,Normal,61.0,1,current
+GSM1051575,Normal,49.0,1,ex
+GSM1051576,Normal,33.0,1,current
+GSM1051577,Normal,48.0,1,current
+GSM1051578,Normal,51.0,1,current
+GSM1051579,Normal,45.0,1,never
+GSM1051580,Normal,61.0,1,never
+GSM1051581,Normal,57.0,1,ex
+GSM1051582,Normal,52.0,1,ex
+GSM1051583,Normal,60.0,1,occasional
+GSM1051584,Normal,62.0,1,ex
+GSM1051585,Normal,62.0,1,never
+GSM1051586,Normal,67.0,1,never
+GSM1051587,Normal,53.0,1,ex
+GSM1051588,Normal,56.0,1,current
+GSM1051589,Normal,41.0,1,current
+GSM1051590,Normal,28.0,1,current
+GSM1051591,Normal,45.0,1,never
+GSM1051592,Normal,39.0,1,current
+GSM1051593,Normal,67.0,1,never
+GSM1051594,Normal,47.0,1,ex
+GSM1051595,Normal,53.0,1,ex
+GSM1051596,Normal,70.0,1,current
+GSM1051597,Normal,33.0,1,never
+GSM1051598,rheumatoid arthritis,65.0,1,never
+GSM1051599,Normal,37.0,1,never
+GSM1051600,rheumatoid arthritis,40.0,1,current
+GSM1051601,Normal,38.0,1,current
+GSM1051602,Normal,51.0,1,current
+GSM1051603,Normal,32.0,1,occasional
+GSM1051604,Normal,24.0,1,never
+GSM1051605,Normal,66.0,1,ex
+GSM1051606,Normal,67.0,1,ex
+GSM1051607,Normal,54.0,1,ex
+GSM1051608,Normal,51.0,1,ex
+GSM1051609,Normal,67.0,1,never
+GSM1051610,Normal,59.0,1,occasional
+GSM1051611,rheumatoid arthritis,47.0,1,ex
+GSM1051612,rheumatoid arthritis,69.0,1,ex
+GSM1051613,rheumatoid arthritis,54.0,1,ex
+GSM1051614,rheumatoid arthritis,42.0,1,ex
+GSM1051615,rheumatoid arthritis,67.0,1,ex
+GSM1051616,rheumatoid arthritis,68.0,1,ex
+GSM1051617,rheumatoid arthritis,60.0,1,never
+GSM1051618,Normal,63.0,1,never
+GSM1051619,Normal,53.0,1,never
+GSM1051620,Normal,42.0,1,occasional
+GSM1051621,Normal,48.0,1,never
+GSM1051622,Normal,25.0,2,never
+GSM1051623,Normal,56.0,2,never
+GSM1051624,Normal,67.0,1,current
+GSM1051625,Normal,70.0,1,ex
+GSM1051626,Normal,55.0,1,never
+GSM1051627,Normal,57.0,1,ex
+GSM1051628,Normal,67.0,2,ex
+GSM1051629,Normal,53.0,2,ex
+GSM1051630,Normal,51.0,2,current
+GSM1051631,Normal,55.0,2,occasional
+GSM1051632,Normal,44.0,1,current
+GSM1051633,Normal,33.0,1,ex
+GSM1051634,Normal,59.0,1,never
+GSM1051635,Normal,47.0,1,ex
+GSM1051636,rheumatoid arthritis,63.0,1,current
+GSM1051637,rheumatoid arthritis,42.0,1,ex
+GSM1051638,Normal,50.0,1,never
+GSM1051639,Normal,55.0,1,occasional
+GSM1051640,rheumatoid arthritis,56.0,1,ex
+GSM1051641,Normal,60.0,1,ex
+GSM1051642,Normal,50.0,1,ex
+GSM1051643,Normal,29.0,1,occasional
+GSM1051644,Normal,50.0,1,never
+GSM1051645,Normal,51.0,1,current
+GSM1051646,Normal,49.0,2,current
+GSM1051647,Normal,51.0,2,never
+GSM1051648,Normal,55.0,2,current
+GSM1051649,Normal,69.0,2,never
+GSM1051650,Normal,59.0,1,ex
+GSM1051651,Normal,70.0,1,never
+GSM1051652,Normal,60.0,1,current
+GSM1051653,Normal,32.0,1,ex
+GSM1051654,Normal,63.0,1,current
+GSM1051655,Normal,36.0,1,current
+GSM1051656,Normal,53.0,2,ex
+GSM1051657,Normal,56.0,1,never
+GSM1051658,Normal,32.0,1,never
+GSM1051659,Normal,51.0,1,ex
+GSM1051660,Normal,43.0,1,ex
+GSM1051661,Normal,39.0,1,ex
+GSM1051662,Normal,62.0,1,ex
+GSM1051663,Normal,45.0,1,ex
+GSM1051664,Normal,43.0,1,current
+GSM1051665,Normal,20.0,1,current
+GSM1051666,Normal,53.0,2,occasional
+GSM1051667,Normal,62.0,2,current
+GSM1051668,Normal,46.0,1,current
+GSM1051669,Normal,65.0,1,never
+GSM1051670,rheumatoid arthritis,67.0,1,ex
+GSM1051671,Normal,62.0,1,ex
+GSM1051672,Normal,61.0,1,ex
+GSM1051673,Normal,56.0,1,ex
+GSM1051674,Normal,56.0,1,occasional
+GSM1051675,Normal,51.0,1,current
+GSM1051676,rheumatoid arthritis,60.0,1,never
+GSM1051677,rheumatoid arthritis,58.0,1,occasional
+GSM1051678,rheumatoid arthritis,50.0,1,current
+GSM1051679,rheumatoid arthritis,31.0,1,ex
+GSM1051680,rheumatoid arthritis,49.0,1,ex
+GSM1051681,rheumatoid arthritis,59.0,1,ex
+GSM1051682,rheumatoid arthritis,62.0,1,current
+GSM1051683,rheumatoid arthritis,51.0,1,ex
+GSM1051684,rheumatoid arthritis,53.0,1,ex
+GSM1051685,rheumatoid arthritis,61.0,1,never
+GSM1051686,rheumatoid arthritis,41.0,1,current
+GSM1051687,Normal,51.0,1,never
+GSM1051688,Normal,65.0,1,never
+GSM1051689,Normal,47.0,1,occasional
+GSM1051690,Normal,43.0,1,current
+GSM1051691,Normal,56.0,1,na
+GSM1051692,Normal,53.0,1,never
+GSM1051693,Normal,54.0,1,ex
+GSM1051694,rheumatoid arthritis,52.0,1,never
+GSM1051695,rheumatoid arthritis,68.0,1,ex
+GSM1051696,rheumatoid arthritis,49.0,1,ex
+GSM1051697,rheumatoid arthritis,65.0,1,ex
+GSM1051698,rheumatoid arthritis,19.0,1,never
+GSM1051699,rheumatoid arthritis,44.0,1,ex
+GSM1051700,rheumatoid arthritis,61.0,1,ex
+GSM1051701,rheumatoid arthritis,53.0,1,never
+GSM1051702,rheumatoid arthritis,44.0,1,occasional
+GSM1051703,rheumatoid arthritis,69.0,1,never
+GSM1051704,rheumatoid arthritis,49.0,1,ex
+GSM1051705,rheumatoid arthritis,49.0,1,never
+GSM1051706,rheumatoid arthritis,52.0,1,current
+GSM1051707,rheumatoid arthritis,51.0,1,ex
+GSM1051708,rheumatoid arthritis,58.0,1,current
+GSM1051709,rheumatoid arthritis,61.0,1,occasional
+GSM1051710,Normal,40.0,1,never
+GSM1051711,rheumatoid arthritis,56.0,2,current
+GSM1051712,Normal,64.0,1,never
+GSM1051713,Normal,61.0,1,ex
+GSM1051714,Normal,69.0,1,occasional
+GSM1051715,Normal,57.0,1,current
+GSM1051716,Normal,54.0,1,never
+GSM1051717,Normal,68.0,1,ex
+GSM1051718,rheumatoid arthritis,57.0,1,ex
+GSM1051719,rheumatoid arthritis,42.0,1,current
+GSM1051720,rheumatoid arthritis,61.0,1,current
+GSM1051721,rheumatoid arthritis,58.0,1,current
+GSM1051722,rheumatoid arthritis,56.0,1,never
+GSM1051723,rheumatoid arthritis,68.0,1,current
+GSM1051724,rheumatoid arthritis,58.0,1,current
+GSM1051725,rheumatoid arthritis,54.0,1,occasional
+GSM1051726,Normal,45.0,1,ex
+GSM1051727,Normal,55.0,1,never
+GSM1051728,rheumatoid arthritis,45.0,1,current
+GSM1051729,rheumatoid arthritis,41.0,1,never
+GSM1051730,Normal,37.0,1,ex
+GSM1051731,Normal,59.0,1,occasional
+GSM1051732,Normal,54.0,1,never
+GSM1051733,Normal,54.0,1,never
+GSM1051734,rheumatoid arthritis,63.0,1,never
+GSM1051735,rheumatoid arthritis,27.0,1,never
+GSM1051736,rheumatoid arthritis,65.0,1,ex
+GSM1051737,rheumatoid arthritis,34.0,1,ex
+GSM1051738,rheumatoid arthritis,64.0,1,never
+GSM1051739,rheumatoid arthritis,68.0,1,never
+GSM1051740,rheumatoid arthritis,60.0,1,ex
+GSM1051741,rheumatoid arthritis,54.0,1,ex
+GSM1051742,Normal,26.0,1,never
+GSM1051743,rheumatoid arthritis,41.0,1,never
+GSM1051744,Normal,68.0,1,ex
+GSM1051745,Normal,51.0,1,ex
+GSM1051746,Normal,45.0,1,never
+GSM1051747,rheumatoid arthritis,55.0,1,never
+GSM1051748,rheumatoid arthritis,62.0,1,never
+GSM1051749,Normal,45.0,1,never
+GSM1051750,rheumatoid arthritis,55.0,1,current
+GSM1051751,Normal,50.0,1,ex
+GSM1051752,Normal,67.0,1,never
+GSM1051753,rheumatoid arthritis,56.0,1,ex
+GSM1051754,Normal,34.0,1,ex
+GSM1051755,Normal,52.0,1,ex
+GSM1051756,Normal,57.0,1,current
+GSM1051757,Normal,60.0,2,ex
+GSM1051758,Normal,51.0,1,ex
+GSM1051759,Normal,66.0,1,ex
+GSM1051760,Normal,22.0,1,ex
+GSM1051761,Normal,55.0,1,current
+GSM1051762,Normal,63.0,1,occasional
+GSM1051763,Normal,59.0,2,ex
+GSM1051764,Normal,66.0,1,never
+GSM1051765,Normal,62.0,1,current
+GSM1051766,Normal,60.0,1,never
+GSM1051767,Normal,64.0,2,ex
+GSM1051768,Normal,47.0,1,occasional
+GSM1051769,Normal,45.0,2,never
+GSM1051770,Normal,31.0,1,occasional
+GSM1051771,Normal,47.0,1,never
+GSM1051772,Normal,64.0,2,current
+GSM1051773,Normal,53.0,2,current
+GSM1051774,Normal,45.0,2,never
+GSM1051775,Normal,53.0,2,ex
+GSM1051776,rheumatoid arthritis,63.0,2,ex
+GSM1051777,Normal,38.0,2,ex
+GSM1051778,rheumatoid arthritis,59.0,2,current
+GSM1051779,rheumatoid arthritis,47.0,2,never
+GSM1051780,rheumatoid arthritis,53.0,2,current
+GSM1051781,Normal,56.0,1,current
+GSM1051782,Normal,31.0,1,current
+GSM1051783,rheumatoid arthritis,61.0,2,occasional
+GSM1051784,Normal,37.0,1,occasional
+GSM1051785,rheumatoid arthritis,56.0,2,ex
+GSM1051786,Normal,68.0,1,never
+GSM1051787,Normal,58.0,1,occasional
+GSM1051788,Normal,62.0,1,current
+GSM1051789,Normal,66.0,1,ex
+GSM1051790,Normal,66.0,1,never
+GSM1051791,Normal,53.0,1,current
+GSM1051792,Normal,54.0,1,ex
+GSM1051793,Normal,56.0,1,current
+GSM1051794,rheumatoid arthritis,55.0,2,current
+GSM1051795,rheumatoid arthritis,51.0,2,occasional
+GSM1051796,rheumatoid arthritis,65.0,2,current
+GSM1051797,rheumatoid arthritis,34.0,2,never
+GSM1051798,rheumatoid arthritis,64.0,2,current
+GSM1051799,rheumatoid arthritis,69.0,2,never
+GSM1051800,rheumatoid arthritis,55.0,2,never
+GSM1051801,rheumatoid arthritis,60.0,2,ex
+GSM1051802,Normal,27.0,2,occasional
+GSM1051803,Normal,56.0,2,current
+GSM1051804,Normal,40.0,2,ex
+GSM1051805,Normal,59.0,2,current
+GSM1051806,Normal,63.0,2,ex
+GSM1051807,Normal,64.0,2,current
+GSM1051808,Normal,27.0,2,never
+GSM1051809,Normal,57.0,2,ex
+GSM1051810,Normal,69.0,2,ex
+GSM1051811,Normal,32.0,2,occasional
+GSM1051812,Normal,59.0,2,current
+GSM1051813,Normal,63.0,2,ex
+GSM1051814,Normal,51.0,2,ex
+GSM1051815,Normal,63.0,2,ex
+GSM1051816,Normal,66.0,2,ex
+GSM1051817,Normal,58.0,2,ex
+GSM1051818,rheumatoid arthritis,45.0,1,current
+GSM1051819,rheumatoid arthritis,57.0,1,current
+GSM1051820,Normal,32.0,2,occasional
+GSM1051821,Normal,67.0,2,current
+GSM1051822,Normal,60.0,2,never
+GSM1051823,Normal,69.0,2,never
+GSM1051824,Normal,38.0,2,ex
+GSM1051825,Normal,59.0,2,ex
+GSM1051826,Normal,64.0,2,ex
+GSM1051827,Normal,59.0,2,current
+GSM1051828,Normal,55.0,2,current
+GSM1051829,rheumatoid arthritis,57.0,1,never
+GSM1051830,rheumatoid arthritis,39.0,1,ex
+GSM1051831,Normal,45.0,1,current
+GSM1051832,Normal,53.0,1,ex
+GSM1051833,Normal,38.0,1,never
+GSM1051834,Normal,54.0,1,ex
+GSM1051835,Normal,62.0,1,never
+GSM1051836,Normal,50.0,1,current
+GSM1051837,Normal,63.0,1,never
+GSM1051838,Normal,53.0,1,never
+GSM1051839,Normal,52.0,1,current
+GSM1051840,Normal,56.0,1,current
+GSM1051841,Normal,46.0,1,never
+GSM1051842,Normal,59.0,1,current
+GSM1051843,Normal,29.0,1,never
+GSM1051844,Normal,41.0,1,ex
+GSM1051845,Normal,33.0,1,never
+GSM1051846,Normal,55.0,1,occasional
+GSM1051847,Normal,40.0,1,current
+GSM1051848,Normal,56.0,1,current
+GSM1051849,rheumatoid arthritis,32.0,1,occasional
+GSM1051850,Normal,33.0,1,ex
+GSM1051851,Normal,45.0,1,ex
+GSM1051852,Normal,69.0,1,current
+GSM1051853,Normal,42.0,1,ex
+GSM1051854,Normal,55.0,1,ex
+GSM1051855,Normal,36.0,1,never
+GSM1051856,rheumatoid arthritis,69.0,1,never
+GSM1051857,Normal,53.0,1,current
+GSM1051858,rheumatoid arthritis,26.0,1,never
+GSM1051859,Normal,44.0,1,current
+GSM1051860,Normal,33.0,1,current
+GSM1051861,rheumatoid arthritis,57.0,1,current
+GSM1051862,Normal,61.0,1,current
+GSM1051863,Normal,43.0,1,current
+GSM1051864,Normal,46.0,1,occasional
+GSM1051865,Normal,54.0,1,ex
+GSM1051866,rheumatoid arthritis,44.0,2,never
+GSM1051867,rheumatoid arthritis,68.0,2,ex
+GSM1051868,rheumatoid arthritis,55.0,2,ex
+GSM1051869,rheumatoid arthritis,37.0,2,ex
+GSM1051870,rheumatoid arthritis,60.0,1,never
+GSM1051871,rheumatoid arthritis,57.0,1,never
+GSM1051872,rheumatoid arthritis,64.0,1,current
+GSM1051873,Normal,55.0,1,current
+GSM1051874,Normal,51.0,1,current
+GSM1051875,rheumatoid arthritis,50.0,1,ex
+GSM1051876,Normal,67.0,1,never
+GSM1051877,rheumatoid arthritis,53.0,2,ex
+GSM1051878,rheumatoid arthritis,37.0,2,ex
+GSM1051879,rheumatoid arthritis,47.0,2,ex
+GSM1051880,rheumatoid arthritis,43.0,2,ex
+GSM1051881,rheumatoid arthritis,46.0,2,ex
+GSM1051882,rheumatoid arthritis,62.0,2,occasional
+GSM1051883,Normal,52.0,1,current
+GSM1051884,Normal,45.0,1,occasional
+GSM1051885,rheumatoid arthritis,57.0,2,ex
+GSM1051886,rheumatoid arthritis,66.0,2,ex
+GSM1051887,rheumatoid arthritis,46.0,2,ex
+GSM1051888,rheumatoid arthritis,62.0,2,current
+GSM1051889,rheumatoid arthritis,60.0,2,current
+GSM1051890,rheumatoid arthritis,55.0,2,current
+GSM1051891,rheumatoid arthritis,51.0,2,ex
+GSM1051892,rheumatoid arthritis,56.0,2,ex
+GSM1051893,rheumatoid arthritis,34.0,2,never
+GSM1051894,rheumatoid arthritis,52.0,2,current
+GSM1051895,rheumatoid arthritis,28.0,2,never
+GSM1051896,rheumatoid arthritis,47.0,2,current
+GSM1051897,rheumatoid arthritis,34.0,1,ex
+GSM1051898,rheumatoid arthritis,43.0,1,ex
+GSM1051899,rheumatoid arthritis,54.0,1,ex
+GSM1051900,rheumatoid arthritis,49.0,1,current
+GSM1051901,Normal,47.0,2,current
+GSM1051902,Normal,69.0,2,never
+GSM1051903,Normal,65.0,2,ex
+GSM1051904,Normal,56.0,2,current
+GSM1051905,Normal,34.0,2,occasional
+GSM1051906,Normal,68.0,2,never
+GSM1051907,Normal,50.0,2,current
+GSM1051908,rheumatoid arthritis,56.0,1,ex
+GSM1051909,rheumatoid arthritis,51.0,1,ex
+GSM1051910,rheumatoid arthritis,39.0,1,current
+GSM1051911,rheumatoid arthritis,65.0,1,occasional
+GSM1051912,rheumatoid arthritis,28.0,1,current
+GSM1051913,rheumatoid arthritis,59.0,2,ex
+GSM1051914,rheumatoid arthritis,38.0,1,occasional
+GSM1051915,rheumatoid arthritis,52.0,1,current
+GSM1051916,rheumatoid arthritis,47.0,1,current
+GSM1051917,rheumatoid arthritis,46.0,1,ex
+GSM1051918,rheumatoid arthritis,62.0,1,occasional
+GSM1051919,rheumatoid arthritis,49.0,1,ex
+GSM1051920,rheumatoid arthritis,37.0,1,occasional
+GSM1051921,rheumatoid arthritis,60.0,1,never
+GSM1051922,rheumatoid arthritis,50.0,1,never
+GSM1051923,Normal,20.0,1,current
+GSM1051924,Normal,64.0,1,never
+GSM1051925,Normal,41.0,1,occasional
+GSM1051926,Normal,54.0,1,ex
+GSM1051927,Normal,60.0,1,never
+GSM1051928,Normal,20.0,1,occasional
+GSM1051929,Normal,65.0,1,ex
+GSM1051930,rheumatoid arthritis,44.0,1,never
+GSM1051931,rheumatoid arthritis,60.0,1,never
+GSM1051932,rheumatoid arthritis,56.0,1,ex
+GSM1051933,rheumatoid arthritis,26.0,1,never
+GSM1051934,rheumatoid arthritis,56.0,1,ex
+GSM1051935,rheumatoid arthritis,39.0,1,ex
+GSM1051936,rheumatoid arthritis,62.0,1,current
+GSM1051937,rheumatoid arthritis,41.0,1,never
+GSM1051938,rheumatoid arthritis,54.0,1,ex
+GSM1051939,rheumatoid arthritis,64.0,1,never
+GSM1051940,rheumatoid arthritis,48.0,1,never
+GSM1051941,rheumatoid arthritis,52.0,1,never
+GSM1051942,rheumatoid arthritis,51.0,1,ex
+GSM1051943,rheumatoid arthritis,62.0,1,never
+GSM1051944,rheumatoid arthritis,39.0,1,never
+GSM1051945,rheumatoid arthritis,51.0,1,current
+GSM1051946,rheumatoid arthritis,43.0,1,ex
+GSM1051947,rheumatoid arthritis,63.0,1,ex
+GSM1051948,rheumatoid arthritis,23.0,1,never
+GSM1051949,Normal,45.0,1,never
+GSM1051950,Normal,52.0,1,ex
+GSM1051951,Normal,68.0,1,never
+GSM1051952,Normal,60.0,1,never
+GSM1051953,Normal,39.0,1,never
+GSM1051954,Normal,50.0,1,current
+GSM1051955,Normal,67.0,1,never
+GSM1051956,rheumatoid arthritis,53.0,2,never
+GSM1051957,rheumatoid arthritis,48.0,2,never
+GSM1051958,rheumatoid arthritis,63.0,2,current
+GSM1051959,rheumatoid arthritis,68.0,2,current
+GSM1051960,rheumatoid arthritis,56.0,2,ex
+GSM1051961,rheumatoid arthritis,22.0,1,occasional
+GSM1051962,Normal,49.0,2,current
+GSM1051963,Normal,65.0,2,current
+GSM1051964,Normal,63.0,2,ex
+GSM1051965,Normal,52.0,2,never
+GSM1051966,Normal,56.0,2,ex
+GSM1051967,Normal,68.0,2,ex
+GSM1051968,Normal,48.0,2,current
+GSM1051969,rheumatoid arthritis,58.0,1,ex
+GSM1051970,rheumatoid arthritis,62.0,1,ex
+GSM1051971,rheumatoid arthritis,62.0,1,never
+GSM1051972,rheumatoid arthritis,50.0,1,current
+GSM1051973,rheumatoid arthritis,50.0,1,current
+GSM1051974,rheumatoid arthritis,58.0,1,never
+GSM1051975,rheumatoid arthritis,60.0,1,never
+GSM1051976,rheumatoid arthritis,42.0,1,ex
+GSM1051977,rheumatoid arthritis,53.0,1,ex
+GSM1051978,rheumatoid arthritis,50.0,2,ex
+GSM1051979,rheumatoid arthritis,51.0,2,ex
+GSM1051980,rheumatoid arthritis,60.0,1,ex
+GSM1051981,rheumatoid arthritis,32.0,2,current
+GSM1051982,rheumatoid arthritis,64.0,1,never
+GSM1051983,rheumatoid arthritis,69.0,1,never
+GSM1051984,rheumatoid arthritis,60.0,1,current
+GSM1051985,rheumatoid arthritis,32.0,1,never
+GSM1051986,rheumatoid arthritis,66.0,1,ex
+GSM1051987,rheumatoid arthritis,55.0,1,current
+GSM1051988,rheumatoid arthritis,28.0,1,ex
+GSM1051989,rheumatoid arthritis,49.0,1,current
+GSM1051990,rheumatoid arthritis,50.0,1,current
+GSM1051991,rheumatoid arthritis,41.0,1,never
+GSM1051992,rheumatoid arthritis,47.0,1,occasional
+GSM1051993,rheumatoid arthritis,36.0,1,never
+GSM1051994,rheumatoid arthritis,54.0,2,current
+GSM1051995,rheumatoid arthritis,29.0,2,never
+GSM1051996,rheumatoid arthritis,61.0,1,ex
+GSM1051997,rheumatoid arthritis,30.0,2,never
+GSM1051998,rheumatoid arthritis,61.0,2,never
+GSM1051999,rheumatoid arthritis,47.0,2,never
+GSM1052000,rheumatoid arthritis,40.0,2,never
+GSM1052001,rheumatoid arthritis,54.0,2,current
+GSM1052002,rheumatoid arthritis,58.0,1,current
+GSM1052003,rheumatoid arthritis,41.0,1,current
+GSM1052004,rheumatoid arthritis,18.0,1,never
+GSM1052005,rheumatoid arthritis,68.0,1,never
+GSM1052006,rheumatoid arthritis,61.0,1,current
+GSM1052007,rheumatoid arthritis,58.0,1,ex
+GSM1052008,rheumatoid arthritis,35.0,1,ex
+GSM1052009,rheumatoid arthritis,63.0,1,never
+GSM1052010,rheumatoid arthritis,22.0,1,current
+GSM1052011,rheumatoid arthritis,63.0,1,never
+GSM1052012,rheumatoid arthritis,58.0,1,current
+GSM1052013,rheumatoid arthritis,22.0,1,never
+GSM1052014,rheumatoid arthritis,48.0,1,never
+GSM1052015,Normal,57.0,2,ex
+GSM1052016,Normal,69.0,2,ex
+GSM1052017,Normal,38.0,2,never
+GSM1052018,Normal,54.0,2,ex
+GSM1052019,Normal,55.0,2,ex
+GSM1052020,Normal,56.0,2,ex
+GSM1052021,Normal,53.0,2,ex
+GSM1052022,Normal,47.0,2,never
+GSM1052023,rheumatoid arthritis,67.0,1,never
+GSM1052024,rheumatoid arthritis,29.0,1,never
+GSM1052025,rheumatoid arthritis,55.0,1,occasional
+GSM1052026,rheumatoid arthritis,62.0,1,current
+GSM1052027,rheumatoid arthritis,66.0,1,ex
+GSM1052028,rheumatoid arthritis,54.0,1,current
+GSM1052029,rheumatoid arthritis,46.0,1,ex
+GSM1052030,rheumatoid arthritis,60.0,2,current
+GSM1052031,rheumatoid arthritis,57.0,1,current
+GSM1052032,rheumatoid arthritis,65.0,1,current
+GSM1052033,rheumatoid arthritis,23.0,1,occasional
+GSM1052034,Normal,55.0,2,ex
+GSM1052035,Normal,48.0,2,occasional
+GSM1052036,Normal,55.0,2,ex
+GSM1052037,Normal,59.0,2,never
+GSM1052038,Normal,56.0,2,ex
+GSM1052039,Normal,48.0,2,never
+GSM1052040,Normal,61.0,2,never
+GSM1052041,Normal,69.0,2,ex
+GSM1052042,rheumatoid arthritis,40.0,1,current
+GSM1052043,rheumatoid arthritis,65.0,2,never
+GSM1052044,rheumatoid arthritis,27.0,1,ex
+GSM1052045,rheumatoid arthritis,62.0,1,current
+GSM1052046,rheumatoid arthritis,46.0,1,ex
+GSM1052047,Normal,57.0,1,never
+GSM1052048,Normal,62.0,1,never
+GSM1052049,Normal,54.0,1,ex
+GSM1052050,Normal,48.0,1,never
+GSM1052051,Normal,70.0,1,ex
+GSM1052052,rheumatoid arthritis,59.0,1,ex
+GSM1052053,rheumatoid arthritis,39.0,1,never
+GSM1052054,rheumatoid arthritis,68.0,1,current
+GSM1052055,rheumatoid arthritis,46.0,1,occasional
+GSM1052056,rheumatoid arthritis,56.0,1,occasional
+GSM1052057,rheumatoid arthritis,65.0,1,current
+GSM1052058,rheumatoid arthritis,30.0,1,current
+GSM1052059,rheumatoid arthritis,67.0,1,current
+GSM1052060,rheumatoid arthritis,59.0,1,ex
+GSM1052061,rheumatoid arthritis,44.0,1,never
+GSM1052062,rheumatoid arthritis,35.0,2,never
+GSM1052063,rheumatoid arthritis,62.0,2,current
+GSM1052064,rheumatoid arthritis,45.0,2,never
+GSM1052065,rheumatoid arthritis,67.0,2,occasional
+GSM1052066,rheumatoid arthritis,50.0,2,never
+GSM1052067,rheumatoid arthritis,58.0,2,ex
+GSM1052068,rheumatoid arthritis,63.0,1,ex
+GSM1052069,rheumatoid arthritis,59.0,2,ex
+GSM1052070,rheumatoid arthritis,33.0,2,current
+GSM1052071,rheumatoid arthritis,57.0,2,current
+GSM1052072,rheumatoid arthritis,60.0,2,ex
+GSM1052073,rheumatoid arthritis,19.0,2,never
+GSM1052074,rheumatoid arthritis,52.0,2,current
+GSM1052075,rheumatoid arthritis,30.0,1,never
+GSM1052076,rheumatoid arthritis,35.0,1,never
+GSM1052077,rheumatoid arthritis,46.0,1,current
+GSM1052078,rheumatoid arthritis,35.0,1,never
+GSM1052079,rheumatoid arthritis,48.0,1,occasional
+GSM1052080,rheumatoid arthritis,59.0,1,current
+GSM1052081,rheumatoid arthritis,53.0,1,never
+GSM1052082,rheumatoid arthritis,46.0,1,current
+GSM1052083,rheumatoid arthritis,54.0,1,ex
+GSM1052084,rheumatoid arthritis,52.0,1,occasional
+GSM1052085,rheumatoid arthritis,53.0,2,never
+GSM1052086,rheumatoid arthritis,52.0,1,current
+GSM1052087,rheumatoid arthritis,58.0,1,current
+GSM1052088,rheumatoid arthritis,28.0,1,occasional
+GSM1052089,rheumatoid arthritis,32.0,2,ex
+GSM1052090,rheumatoid arthritis,69.0,1,current
+GSM1052091,rheumatoid arthritis,61.0,1,ex
+GSM1052092,rheumatoid arthritis,68.0,2,ex
+GSM1052093,rheumatoid arthritis,46.0,2,current
+GSM1052094,rheumatoid arthritis,66.0,2,ex
+GSM1052095,rheumatoid arthritis,52.0,2,ex
+GSM1052096,rheumatoid arthritis,56.0,2,current
+GSM1052097,rheumatoid arthritis,62.0,2,ex
+GSM1052098,rheumatoid arthritis,54.0,2,ex
+GSM1052099,Normal,69.0,2,ex
+GSM1052100,Normal,55.0,2,never
+GSM1052101,Normal,66.0,2,never
+GSM1052102,Normal,68.0,2,never
+GSM1052103,Normal,56.0,2,ex
+GSM1052104,Normal,58.0,2,occasional
+GSM1052105,rheumatoid arthritis,36.0,1,occasional
+GSM1052106,rheumatoid arthritis,45.0,1,occasional
+GSM1052107,rheumatoid arthritis,47.0,1,occasional
+GSM1052108,rheumatoid arthritis,42.0,1,current
+GSM1052109,rheumatoid arthritis,60.0,1,ex
+GSM1052110,rheumatoid arthritis,55.0,2,ex
+GSM1052111,rheumatoid arthritis,51.0,2,current
+GSM1052112,rheumatoid arthritis,64.0,2,ex
+GSM1052113,rheumatoid arthritis,58.0,2,ex
+GSM1052114,rheumatoid arthritis,41.0,2,current
+GSM1052115,rheumatoid arthritis,44.0,2,never
+GSM1052116,rheumatoid arthritis,63.0,1,current
+GSM1052117,rheumatoid arthritis,21.0,1,current
+GSM1052118,rheumatoid arthritis,46.0,2,occasional
+GSM1052119,rheumatoid arthritis,33.0,1,never
+GSM1052120,rheumatoid arthritis,66.0,1,current
+GSM1052121,rheumatoid arthritis,59.0,1,current
+GSM1052122,Normal,61.0,1,current
+GSM1052123,Normal,56.0,1,never
+GSM1052124,Normal,42.0,1,never
+GSM1052125,Normal,62.0,1,ex
+GSM1052126,Normal,60.0,1,never
+GSM1052127,Normal,69.0,1,never
+GSM1052128,Normal,54.0,1,current
+GSM1052129,Normal,31.0,1,occasional
+GSM1052130,Normal,58.0,1,never
+GSM1052131,Normal,37.0,1,never
+GSM1052132,Normal,62.0,1,ex
+GSM1052133,Normal,50.0,1,ex
+GSM1052134,Normal,44.0,1,current
+GSM1052135,Normal,61.0,1,never
+GSM1052136,Normal,61.0,1,ex
+GSM1052137,Normal,28.0,1,never
+GSM1052138,rheumatoid arthritis,33.0,1,occasional
+GSM1052139,rheumatoid arthritis,51.0,1,current
+GSM1052140,rheumatoid arthritis,64.0,2,ex
+GSM1052141,rheumatoid arthritis,39.0,1,ex
+GSM1052142,rheumatoid arthritis,54.0,1,ex
+GSM1052143,rheumatoid arthritis,53.0,1,ex
+GSM1052144,rheumatoid arthritis,29.0,1,current
+GSM1052145,rheumatoid arthritis,56.0,1,occasional
+GSM1052146,rheumatoid arthritis,22.0,1,never
+GSM1052147,rheumatoid arthritis,51.0,2,ex
+GSM1052148,rheumatoid arthritis,56.0,2,ex
+GSM1052149,rheumatoid arthritis,63.0,2,ex
+GSM1052150,rheumatoid arthritis,56.0,1,ex
+GSM1052151,rheumatoid arthritis,64.0,2,ex
+GSM1052152,rheumatoid arthritis,62.0,2,ex
+GSM1052153,rheumatoid arthritis,28.0,1,ex
+GSM1052154,rheumatoid arthritis,56.0,1,current
+GSM1052155,rheumatoid arthritis,31.0,1,never
+GSM1052156,rheumatoid arthritis,49.0,1,ex
+GSM1052157,rheumatoid arthritis,45.0,2,ex
+GSM1052158,rheumatoid arthritis,59.0,2,current
+GSM1052159,rheumatoid arthritis,60.0,2,ex
+GSM1052160,rheumatoid arthritis,55.0,1,never
+GSM1052161,rheumatoid arthritis,59.0,2,ex
+GSM1052162,rheumatoid arthritis,50.0,2,current
+GSM1052163,rheumatoid arthritis,68.0,1,current
+GSM1052164,rheumatoid arthritis,62.0,2,ex
+GSM1052165,rheumatoid arthritis,51.0,2,current
+GSM1052166,rheumatoid arthritis,48.0,2,current
+GSM1052167,rheumatoid arthritis,57.0,1,current
+GSM1052168,rheumatoid arthritis,54.0,1,current
+GSM1052169,rheumatoid arthritis,56.0,1,current
+GSM1052170,rheumatoid arthritis,42.0,1,current
+GSM1052171,rheumatoid arthritis,65.0,1,current
+GSM1052172,rheumatoid arthritis,68.0,1,never
+GSM1052173,rheumatoid arthritis,54.0,1,never
+GSM1052174,rheumatoid arthritis,63.0,1,never
+GSM1052175,rheumatoid arthritis,44.0,1,current
+GSM1052176,rheumatoid arthritis,48.0,1,ex
+GSM1052177,rheumatoid arthritis,53.0,1,current
+GSM1052178,rheumatoid arthritis,46.0,1,ex
+GSM1052179,rheumatoid arthritis,65.0,1,current
+GSM1052180,rheumatoid arthritis,44.0,1,current
+GSM1052181,rheumatoid arthritis,37.0,1,current
+GSM1052182,rheumatoid arthritis,55.0,1,never
+GSM1052183,rheumatoid arthritis,62.0,1,current
+GSM1052184,rheumatoid arthritis,36.0,1,current
+GSM1052185,rheumatoid arthritis,41.0,1,ex
+GSM1052186,rheumatoid arthritis,28.0,1,never
+GSM1052187,rheumatoid arthritis,23.0,1,occasional
+GSM1052188,Normal,54.0,1,occasional
+GSM1052189,Normal,66.0,1,current
+GSM1052190,Normal,64.0,1,ex
+GSM1052191,Normal,36.0,1,never
+GSM1052192,Normal,47.0,1,never
+GSM1052193,Normal,68.0,1,never
+GSM1052194,Normal,56.0,1,ex
+GSM1052195,Normal,60.0,1,never
+GSM1052196,rheumatoid arthritis,65.0,1,never
+GSM1052197,rheumatoid arthritis,64.0,1,current
+GSM1052198,rheumatoid arthritis,46.0,1,never
+GSM1052199,rheumatoid arthritis,47.0,1,current
+GSM1052200,rheumatoid arthritis,65.0,1,current
+GSM1052201,rheumatoid arthritis,56.0,1,current
+GSM1052202,rheumatoid arthritis,53.0,1,current
+GSM1052203,rheumatoid arthritis,37.0,1,ex
+GSM1052204,rheumatoid arthritis,21.0,1,occasional
+GSM1052205,rheumatoid arthritis,22.0,1,ex
+GSM1052206,Normal,68.0,1,current
+GSM1052207,Normal,57.0,1,never
+GSM1052208,Normal,59.0,1,current
+GSM1052209,Normal,63.0,1,ex
+GSM1052210,Normal,63.0,1,never
+GSM1052211,Normal,46.0,1,never
+GSM1052212,Normal,64.0,1,ex
+GSM1052213,Normal,36.0,1,never
