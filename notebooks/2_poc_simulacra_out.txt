@@ -1,0 +1,1736 @@
+[2025-10-12 22:24:47] Starting benchmark experiment for GSE42861 with seeds: [42, 931782, 8481962]
+[2025-10-12 22:24:47] 
+=== Running benchmark with seed 42 ===
+[2025-10-12 22:24:47] Starting benchmark for GSE42861 with seed 42...
+[2025-10-12 22:24:47] Loading combined embeddings with target...
+[2025-10-12 22:24:47] Loaded dataframe shape: (689, 513)
+[2025-10-12 22:24:47] Creating train/test split (test_fraction=0.2)...
+[2025-10-12 22:24:47] Split sizes - Train: 551, Test: 138
+[2025-10-12 22:24:47] === Training Baseline Classifier ===
+[2025-10-12 22:24:47] Baseline - Accuracy: 0.7899, F1: 0.7893
+[2025-10-12 22:24:47] === Training GaussianCopula Augmented Classifier ===
+[2025-10-12 22:24:47] Creating metadata for GaussianCopula...
+[2025-10-12 22:24:48] Training GaussianCopula synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-12 22:25:38] GaussianCopula synthesizer training completed in 50.37 seconds
+[2025-10-12 22:25:38] Generating synthetic data with GaussianCopula (LONG OPERATION)...
+[2025-10-12 22:25:44] Synthetic data generation completed in 56.83 seconds
+[2025-10-12 22:25:44] Combining real and synthetic data...
+[2025-10-12 22:25:44] Augmented dataset size: 1102 samples
+[2025-10-12 22:25:44] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-12 22:25:44] GaussianCopula - Accuracy: 0.8116, F1: 0.8110
+[2025-10-12 22:25:44] Total GaussianCopula processing time: 57.01 seconds
+[2025-10-12 22:25:44] === Training CTGAN Augmented Classifier ===
+[2025-10-12 22:25:44] Creating metadata for CTGAN...
+[2025-10-12 22:25:45] Training CTGAN synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+PerformanceAlert: Using the CTGANSynthesizer on this data is not recommended. To model this data, CTGAN will generate a large number of columns.
+
+Original Column Name   Est # of Columns (CTGAN)
+disease                2
+emb_0                  11
+emb_1                  11
+emb_2                  11
+emb_3                  11
+emb_4                  11
+emb_5                  11
+emb_6                  11
+emb_7                  11
+emb_8                  11
+emb_9                  11
+emb_10                 11
+emb_11                 11
+emb_12                 11
+emb_13                 11
+emb_14                 11
+emb_15                 11
+emb_16                 11
+emb_17                 11
+emb_18                 11
+emb_19                 11
+emb_20                 11
+emb_21                 11
+emb_22                 11
+emb_23                 11
+emb_24                 11
+emb_25                 11
+emb_26                 11
+emb_27                 11
+emb_28                 11
+emb_29                 11
+emb_30                 11
+emb_31                 11
+emb_32                 11
+emb_33                 11
+emb_34                 11
+emb_35                 11
+emb_36                 11
+emb_37                 11
+emb_38                 11
+emb_39                 11
+emb_40                 11
+emb_41                 11
+emb_42                 11
+emb_43                 11
+emb_44                 11
+emb_45                 11
+emb_46                 11
+emb_47                 11
+emb_48                 11
+emb_49                 11
+emb_50                 11
+emb_51                 11
+emb_52                 11
+emb_53                 11
+emb_54                 11
+emb_55                 11
+emb_56                 11
+emb_57                 11
+emb_58                 11
+emb_59                 11
+emb_60                 11
+emb_61                 11
+emb_62                 11
+emb_63                 11
+emb_64                 11
+emb_65                 11
+emb_66                 11
+emb_67                 11
+emb_68                 11
+emb_69                 11
+emb_70                 11
+emb_71                 11
+emb_72                 11
+emb_73                 11
+emb_74                 11
+emb_75                 11
+emb_76                 11
+emb_77                 11
+emb_78                 11
+emb_79                 11
+emb_80                 11
+emb_81                 11
+emb_82                 11
+emb_83                 11
+emb_84                 11
+emb_85                 11
+emb_86                 11
+emb_87                 11
+emb_88                 11
+emb_89                 11
+emb_90                 11
+emb_91                 11
+emb_92                 11
+emb_93                 11
+emb_94                 11
+emb_95                 11
+emb_96                 11
+emb_97                 11
+emb_98                 11
+emb_99                 11
+emb_100                11
+emb_101                11
+emb_102                11
+emb_103                11
+emb_104                11
+emb_105                11
+emb_106                11
+emb_107                11
+emb_108                11
+emb_109                11
+emb_110                11
+emb_111                11
+emb_112                11
+emb_113                11
+emb_114                11
+emb_115                11
+emb_116                11
+emb_117                11
+emb_118                11
+emb_119                11
+emb_120                11
+emb_121                11
+emb_122                11
+emb_123                11
+emb_124                11
+emb_125                11
+emb_126                11
+emb_127                11
+emb_128                11
+emb_129                11
+emb_130                11
+emb_131                11
+emb_132                11
+emb_133                11
+emb_134                11
+emb_135                11
+emb_136                11
+emb_137                11
+emb_138                11
+emb_139                11
+emb_140                11
+emb_141                11
+emb_142                11
+emb_143                11
+emb_144                11
+emb_145                11
+emb_146                11
+emb_147                11
+emb_148                11
+emb_149                11
+emb_150                11
+emb_151                11
+emb_152                11
+emb_153                11
+emb_154                11
+emb_155                11
+emb_156                11
+emb_157                11
+emb_158                11
+emb_159                11
+emb_160                11
+emb_161                11
+emb_162                11
+emb_163                11
+emb_164                11
+emb_165                11
+emb_166                11
+emb_167                11
+emb_168                11
+emb_169                11
+emb_170                11
+emb_171                11
+emb_172                11
+emb_173                11
+emb_174                11
+emb_175                11
+emb_176                11
+emb_177                11
+emb_178                11
+emb_179                11
+emb_180                11
+emb_181                11
+emb_182                11
+emb_183                11
+emb_184                11
+emb_185                11
+emb_186                11
+emb_187                11
+emb_188                11
+emb_189                11
+emb_190                11
+emb_191                11
+emb_192                11
+emb_193                11
+emb_194                11
+emb_195                11
+emb_196                11
+emb_197                11
+emb_198                11
+emb_199                11
+emb_200                11
+emb_201                11
+emb_202                11
+emb_203                11
+emb_204                11
+emb_205                11
+emb_206                11
+emb_207                11
+emb_208                11
+emb_209                11
+emb_210                11
+emb_211                11
+emb_212                11
+emb_213                11
+emb_214                11
+emb_215                11
+emb_216                11
+emb_217                11
+emb_218                11
+emb_219                11
+emb_220                11
+emb_221                11
+emb_222                11
+emb_223                11
+emb_224                11
+emb_225                11
+emb_226                11
+emb_227                11
+emb_228                11
+emb_229                11
+emb_230                11
+emb_231                11
+emb_232                11
+emb_233                11
+emb_234                11
+emb_235                11
+emb_236                11
+emb_237                11
+emb_238                11
+emb_239                11
+emb_240                11
+emb_241                11
+emb_242                11
+emb_243                11
+emb_244                11
+emb_245                11
+emb_246                11
+emb_247                11
+emb_248                11
+emb_249                11
+emb_250                11
+emb_251                11
+emb_252                11
+emb_253                11
+emb_254                11
+emb_255                11
+emb_256                11
+emb_257                11
+emb_258                11
+emb_259                11
+emb_260                11
+emb_261                11
+emb_262                11
+emb_263                11
+emb_264                11
+emb_265                11
+emb_266                11
+emb_267                11
+emb_268                11
+emb_269                11
+emb_270                11
+emb_271                11
+emb_272                11
+emb_273                11
+emb_274                11
+emb_275                11
+emb_276                11
+emb_277                11
+emb_278                11
+emb_279                11
+emb_280                11
+emb_281                11
+emb_282                11
+emb_283                11
+emb_284                11
+emb_285                11
+emb_286                11
+emb_287                11
+emb_288                11
+emb_289                11
+emb_290                11
+emb_291                11
+emb_292                11
+emb_293                11
+emb_294                11
+emb_295                11
+emb_296                11
+emb_297                11
+emb_298                11
+emb_299                11
+emb_300                11
+emb_301                11
+emb_302                11
+emb_303                11
+emb_304                11
+emb_305                11
+emb_306                11
+emb_307                11
+emb_308                11
+emb_309                11
+emb_310                11
+emb_311                11
+emb_312                11
+emb_313                11
+emb_314                11
+emb_315                11
+emb_316                11
+emb_317                11
+emb_318                11
+emb_319                11
+emb_320                11
+emb_321                11
+emb_322                11
+emb_323                11
+emb_324                11
+emb_325                11
+emb_326                11
+emb_327                11
+emb_328                11
+emb_329                11
+emb_330                11
+emb_331                11
+emb_332                11
+emb_333                11
+emb_334                11
+emb_335                11
+emb_336                11
+emb_337                11
+emb_338                11
+emb_339                11
+emb_340                11
+emb_341                11
+emb_342                11
+emb_343                11
+emb_344                11
+emb_345                11
+emb_346                11
+emb_347                11
+emb_348                11
+emb_349                11
+emb_350                11
+emb_351                11
+emb_352                11
+emb_353                11
+emb_354                11
+emb_355                11
+emb_356                11
+emb_357                11
+emb_358                11
+emb_359                11
+emb_360                11
+emb_361                11
+emb_362                11
+emb_363                11
+emb_364                11
+emb_365                11
+emb_366                11
+emb_367                11
+emb_368                11
+emb_369                11
+emb_370                11
+emb_371                11
+emb_372                11
+emb_373                11
+emb_374                11
+emb_375                11
+emb_376                11
+emb_377                11
+emb_378                11
+emb_379                11
+emb_380                11
+emb_381                11
+emb_382                11
+emb_383                11
+emb_384                11
+emb_385                11
+emb_386                11
+emb_387                11
+emb_388                11
+emb_389                11
+emb_390                11
+emb_391                11
+emb_392                11
+emb_393                11
+emb_394                11
+emb_395                11
+emb_396                11
+emb_397                11
+emb_398                11
+emb_399                11
+emb_400                11
+emb_401                11
+emb_402                11
+emb_403                11
+emb_404                11
+emb_405                11
+emb_406                11
+emb_407                11
+emb_408                11
+emb_409                11
+emb_410                11
+emb_411                11
+emb_412                11
+emb_413                11
+emb_414                11
+emb_415                11
+emb_416                11
+emb_417                11
+emb_418                11
+emb_419                11
+emb_420                11
+emb_421                11
+emb_422                11
+emb_423                11
+emb_424                11
+emb_425                11
+emb_426                11
+emb_427                11
+emb_428                11
+emb_429                11
+emb_430                11
+emb_431                11
+emb_432                11
+emb_433                11
+emb_434                11
+emb_435                11
+emb_436                11
+emb_437                11
+emb_438                11
+emb_439                11
+emb_440                11
+emb_441                11
+emb_442                11
+emb_443                11
+emb_444                11
+emb_445                11
+emb_446                11
+emb_447                11
+emb_448                11
+emb_449                11
+emb_450                11
+emb_451                11
+emb_452                11
+emb_453                11
+emb_454                11
+emb_455                11
+emb_456                11
+emb_457                11
+emb_458                11
+emb_459                11
+emb_460                11
+emb_461                11
+emb_462                11
+emb_463                11
+emb_464                11
+emb_465                11
+emb_466                11
+emb_467                11
+emb_468                11
+emb_469                11
+emb_470                11
+emb_471                11
+emb_472                11
+emb_473                11
+emb_474                11
+emb_475                11
+emb_476                11
+emb_477                11
+emb_478                11
+emb_479                11
+emb_480                11
+emb_481                11
+emb_482                11
+emb_483                11
+emb_484                11
+emb_485                11
+emb_486                11
+emb_487                11
+emb_488                11
+emb_489                11
+emb_490                11
+emb_491                11
+emb_492                11
+emb_493                11
+emb_494                11
+emb_495                11
+emb_496                11
+emb_497                11
+emb_498                11
+emb_499                11
+emb_500                11
+emb_501                11
+emb_502                11
+emb_503                11
+emb_504                11
+emb_505                11
+emb_506                11
+emb_507                11
+emb_508                11
+emb_509                11
+emb_510                11
+emb_511                11
+
+We recommend preprocessing discrete columns that can have many values, using 'update_transformers'. Or you may drop columns that are not necessary to model. (Exit this script using ctrl-C)
+[2025-10-12 23:16:31] CTGAN synthesizer training completed in 3046.70 seconds
+[2025-10-12 23:16:31] Generating synthetic data with CTGAN (LONG OPERATION)...
+[2025-10-12 23:16:53] Synthetic data generation completed in 3069.14 seconds
+[2025-10-12 23:16:53] Combining real and synthetic data...
+[2025-10-12 23:16:54] Augmented dataset size: 1102 samples
+[2025-10-12 23:16:54] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-12 23:16:54] CTGAN - Accuracy: 0.7826, F1: 0.7824
+[2025-10-12 23:16:54] Total CTGAN processing time: 3069.98 seconds
+[2025-10-12 23:16:54] === Training TVAE Augmented Classifier ===
+[2025-10-12 23:16:54] Creating metadata for TVAE...
+[2025-10-12 23:16:57] Training TVAE synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-12 23:54:14] TVAE synthesizer training completed in 2239.83 seconds
+[2025-10-12 23:54:14] Generating synthetic data with TVAE (LONG OPERATION)...
+[2025-10-12 23:54:23] Synthetic data generation completed in 2249.14 seconds
+[2025-10-12 23:54:23] Combining real and synthetic data...
+[2025-10-12 23:54:23] Augmented dataset size: 1102 samples
+[2025-10-12 23:54:24] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-12 23:54:24] TVAE - Accuracy: 0.7971, F1: 0.7969
+[2025-10-12 23:54:24] Total TVAE processing time: 2249.87 seconds
+[2025-10-12 23:54:24] Saving benchmark results to 2_poc_simulacra\GSE42861_benchmark_seed_42.pkl...
+[2025-10-12 23:54:27] Benchmark results saved successfully
+[2025-10-12 23:54:27] 
+=== Running benchmark with seed 931782 ===
+[2025-10-12 23:54:27] Starting benchmark for GSE42861 with seed 931782...
+[2025-10-12 23:54:27] Loading combined embeddings with target...
+[2025-10-12 23:54:27] Loaded dataframe shape: (689, 513)
+[2025-10-12 23:54:27] Creating train/test split (test_fraction=0.2)...
+[2025-10-12 23:54:27] Split sizes - Train: 551, Test: 138
+[2025-10-12 23:54:27] === Training Baseline Classifier ===
+[2025-10-12 23:54:28] Baseline - Accuracy: 0.6957, F1: 0.6956
+[2025-10-12 23:54:28] === Training GaussianCopula Augmented Classifier ===
+[2025-10-12 23:54:28] Creating metadata for GaussianCopula...
+[2025-10-12 23:54:28] Training GaussianCopula synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-12 23:55:34] GaussianCopula synthesizer training completed in 66.93 seconds
+[2025-10-12 23:55:34] Generating synthetic data with GaussianCopula (LONG OPERATION)...
+[2025-10-12 23:55:42] Synthetic data generation completed in 74.62 seconds
+[2025-10-12 23:55:42] Combining real and synthetic data...
+[2025-10-12 23:55:42] Augmented dataset size: 1102 samples
+[2025-10-12 23:55:42] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-12 23:55:42] GaussianCopula - Accuracy: 0.6812, F1: 0.6806
+[2025-10-12 23:55:42] Total GaussianCopula processing time: 74.83 seconds
+[2025-10-12 23:55:42] === Training CTGAN Augmented Classifier ===
+[2025-10-12 23:55:42] Creating metadata for CTGAN...
+[2025-10-12 23:55:43] Training CTGAN synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+PerformanceAlert: Using the CTGANSynthesizer on this data is not recommended. To model this data, CTGAN will generate a large number of columns.
+
+Original Column Name   Est # of Columns (CTGAN)
+disease                2
+emb_0                  11
+emb_1                  11
+emb_2                  11
+emb_3                  11
+emb_4                  11
+emb_5                  11
+emb_6                  11
+emb_7                  11
+emb_8                  11
+emb_9                  11
+emb_10                 11
+emb_11                 11
+emb_12                 11
+emb_13                 11
+emb_14                 11
+emb_15                 11
+emb_16                 11
+emb_17                 11
+emb_18                 11
+emb_19                 11
+emb_20                 11
+emb_21                 11
+emb_22                 11
+emb_23                 11
+emb_24                 11
+emb_25                 11
+emb_26                 11
+emb_27                 11
+emb_28                 11
+emb_29                 11
+emb_30                 11
+emb_31                 11
+emb_32                 11
+emb_33                 11
+emb_34                 11
+emb_35                 11
+emb_36                 11
+emb_37                 11
+emb_38                 11
+emb_39                 11
+emb_40                 11
+emb_41                 11
+emb_42                 11
+emb_43                 11
+emb_44                 11
+emb_45                 11
+emb_46                 11
+emb_47                 11
+emb_48                 11
+emb_49                 11
+emb_50                 11
+emb_51                 11
+emb_52                 11
+emb_53                 11
+emb_54                 11
+emb_55                 11
+emb_56                 11
+emb_57                 11
+emb_58                 11
+emb_59                 11
+emb_60                 11
+emb_61                 11
+emb_62                 11
+emb_63                 11
+emb_64                 11
+emb_65                 11
+emb_66                 11
+emb_67                 11
+emb_68                 11
+emb_69                 11
+emb_70                 11
+emb_71                 11
+emb_72                 11
+emb_73                 11
+emb_74                 11
+emb_75                 11
+emb_76                 11
+emb_77                 11
+emb_78                 11
+emb_79                 11
+emb_80                 11
+emb_81                 11
+emb_82                 11
+emb_83                 11
+emb_84                 11
+emb_85                 11
+emb_86                 11
+emb_87                 11
+emb_88                 11
+emb_89                 11
+emb_90                 11
+emb_91                 11
+emb_92                 11
+emb_93                 11
+emb_94                 11
+emb_95                 11
+emb_96                 11
+emb_97                 11
+emb_98                 11
+emb_99                 11
+emb_100                11
+emb_101                11
+emb_102                11
+emb_103                11
+emb_104                11
+emb_105                11
+emb_106                11
+emb_107                11
+emb_108                11
+emb_109                11
+emb_110                11
+emb_111                11
+emb_112                11
+emb_113                11
+emb_114                11
+emb_115                11
+emb_116                11
+emb_117                11
+emb_118                11
+emb_119                11
+emb_120                11
+emb_121                11
+emb_122                11
+emb_123                11
+emb_124                11
+emb_125                11
+emb_126                11
+emb_127                11
+emb_128                11
+emb_129                11
+emb_130                11
+emb_131                11
+emb_132                11
+emb_133                11
+emb_134                11
+emb_135                11
+emb_136                11
+emb_137                11
+emb_138                11
+emb_139                11
+emb_140                11
+emb_141                11
+emb_142                11
+emb_143                11
+emb_144                11
+emb_145                11
+emb_146                11
+emb_147                11
+emb_148                11
+emb_149                11
+emb_150                11
+emb_151                11
+emb_152                11
+emb_153                11
+emb_154                11
+emb_155                11
+emb_156                11
+emb_157                11
+emb_158                11
+emb_159                11
+emb_160                11
+emb_161                11
+emb_162                11
+emb_163                11
+emb_164                11
+emb_165                11
+emb_166                11
+emb_167                11
+emb_168                11
+emb_169                11
+emb_170                11
+emb_171                11
+emb_172                11
+emb_173                11
+emb_174                11
+emb_175                11
+emb_176                11
+emb_177                11
+emb_178                11
+emb_179                11
+emb_180                11
+emb_181                11
+emb_182                11
+emb_183                11
+emb_184                11
+emb_185                11
+emb_186                11
+emb_187                11
+emb_188                11
+emb_189                11
+emb_190                11
+emb_191                11
+emb_192                11
+emb_193                11
+emb_194                11
+emb_195                11
+emb_196                11
+emb_197                11
+emb_198                11
+emb_199                11
+emb_200                11
+emb_201                11
+emb_202                11
+emb_203                11
+emb_204                11
+emb_205                11
+emb_206                11
+emb_207                11
+emb_208                11
+emb_209                11
+emb_210                11
+emb_211                11
+emb_212                11
+emb_213                11
+emb_214                11
+emb_215                11
+emb_216                11
+emb_217                11
+emb_218                11
+emb_219                11
+emb_220                11
+emb_221                11
+emb_222                11
+emb_223                11
+emb_224                11
+emb_225                11
+emb_226                11
+emb_227                11
+emb_228                11
+emb_229                11
+emb_230                11
+emb_231                11
+emb_232                11
+emb_233                11
+emb_234                11
+emb_235                11
+emb_236                11
+emb_237                11
+emb_238                11
+emb_239                11
+emb_240                11
+emb_241                11
+emb_242                11
+emb_243                11
+emb_244                11
+emb_245                11
+emb_246                11
+emb_247                11
+emb_248                11
+emb_249                11
+emb_250                11
+emb_251                11
+emb_252                11
+emb_253                11
+emb_254                11
+emb_255                11
+emb_256                11
+emb_257                11
+emb_258                11
+emb_259                11
+emb_260                11
+emb_261                11
+emb_262                11
+emb_263                11
+emb_264                11
+emb_265                11
+emb_266                11
+emb_267                11
+emb_268                11
+emb_269                11
+emb_270                11
+emb_271                11
+emb_272                11
+emb_273                11
+emb_274                11
+emb_275                11
+emb_276                11
+emb_277                11
+emb_278                11
+emb_279                11
+emb_280                11
+emb_281                11
+emb_282                11
+emb_283                11
+emb_284                11
+emb_285                11
+emb_286                11
+emb_287                11
+emb_288                11
+emb_289                11
+emb_290                11
+emb_291                11
+emb_292                11
+emb_293                11
+emb_294                11
+emb_295                11
+emb_296                11
+emb_297                11
+emb_298                11
+emb_299                11
+emb_300                11
+emb_301                11
+emb_302                11
+emb_303                11
+emb_304                11
+emb_305                11
+emb_306                11
+emb_307                11
+emb_308                11
+emb_309                11
+emb_310                11
+emb_311                11
+emb_312                11
+emb_313                11
+emb_314                11
+emb_315                11
+emb_316                11
+emb_317                11
+emb_318                11
+emb_319                11
+emb_320                11
+emb_321                11
+emb_322                11
+emb_323                11
+emb_324                11
+emb_325                11
+emb_326                11
+emb_327                11
+emb_328                11
+emb_329                11
+emb_330                11
+emb_331                11
+emb_332                11
+emb_333                11
+emb_334                11
+emb_335                11
+emb_336                11
+emb_337                11
+emb_338                11
+emb_339                11
+emb_340                11
+emb_341                11
+emb_342                11
+emb_343                11
+emb_344                11
+emb_345                11
+emb_346                11
+emb_347                11
+emb_348                11
+emb_349                11
+emb_350                11
+emb_351                11
+emb_352                11
+emb_353                11
+emb_354                11
+emb_355                11
+emb_356                11
+emb_357                11
+emb_358                11
+emb_359                11
+emb_360                11
+emb_361                11
+emb_362                11
+emb_363                11
+emb_364                11
+emb_365                11
+emb_366                11
+emb_367                11
+emb_368                11
+emb_369                11
+emb_370                11
+emb_371                11
+emb_372                11
+emb_373                11
+emb_374                11
+emb_375                11
+emb_376                11
+emb_377                11
+emb_378                11
+emb_379                11
+emb_380                11
+emb_381                11
+emb_382                11
+emb_383                11
+emb_384                11
+emb_385                11
+emb_386                11
+emb_387                11
+emb_388                11
+emb_389                11
+emb_390                11
+emb_391                11
+emb_392                11
+emb_393                11
+emb_394                11
+emb_395                11
+emb_396                11
+emb_397                11
+emb_398                11
+emb_399                11
+emb_400                11
+emb_401                11
+emb_402                11
+emb_403                11
+emb_404                11
+emb_405                11
+emb_406                11
+emb_407                11
+emb_408                11
+emb_409                11
+emb_410                11
+emb_411                11
+emb_412                11
+emb_413                11
+emb_414                11
+emb_415                11
+emb_416                11
+emb_417                11
+emb_418                11
+emb_419                11
+emb_420                11
+emb_421                11
+emb_422                11
+emb_423                11
+emb_424                11
+emb_425                11
+emb_426                11
+emb_427                11
+emb_428                11
+emb_429                11
+emb_430                11
+emb_431                11
+emb_432                11
+emb_433                11
+emb_434                11
+emb_435                11
+emb_436                11
+emb_437                11
+emb_438                11
+emb_439                11
+emb_440                11
+emb_441                11
+emb_442                11
+emb_443                11
+emb_444                11
+emb_445                11
+emb_446                11
+emb_447                11
+emb_448                11
+emb_449                11
+emb_450                11
+emb_451                11
+emb_452                11
+emb_453                11
+emb_454                11
+emb_455                11
+emb_456                11
+emb_457                11
+emb_458                11
+emb_459                11
+emb_460                11
+emb_461                11
+emb_462                11
+emb_463                11
+emb_464                11
+emb_465                11
+emb_466                11
+emb_467                11
+emb_468                11
+emb_469                11
+emb_470                11
+emb_471                11
+emb_472                11
+emb_473                11
+emb_474                11
+emb_475                11
+emb_476                11
+emb_477                11
+emb_478                11
+emb_479                11
+emb_480                11
+emb_481                11
+emb_482                11
+emb_483                11
+emb_484                11
+emb_485                11
+emb_486                11
+emb_487                11
+emb_488                11
+emb_489                11
+emb_490                11
+emb_491                11
+emb_492                11
+emb_493                11
+emb_494                11
+emb_495                11
+emb_496                11
+emb_497                11
+emb_498                11
+emb_499                11
+emb_500                11
+emb_501                11
+emb_502                11
+emb_503                11
+emb_504                11
+emb_505                11
+emb_506                11
+emb_507                11
+emb_508                11
+emb_509                11
+emb_510                11
+emb_511                11
+
+We recommend preprocessing discrete columns that can have many values, using 'update_transformers'. Or you may drop columns that are not necessary to model. (Exit this script using ctrl-C)
+[2025-10-13 00:18:48] CTGAN synthesizer training completed in 1385.95 seconds
+[2025-10-13 00:18:48] Generating synthetic data with CTGAN (LONG OPERATION)...
+[2025-10-13 00:19:00] Synthetic data generation completed in 1397.46 seconds
+[2025-10-13 00:19:00] Combining real and synthetic data...
+[2025-10-13 00:19:00] Augmented dataset size: 1102 samples
+[2025-10-13 00:19:00] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-13 00:19:00] CTGAN - Accuracy: 0.7101, F1: 0.7101
+[2025-10-13 00:19:00] Total CTGAN processing time: 1397.72 seconds
+[2025-10-13 00:19:00] === Training TVAE Augmented Classifier ===
+[2025-10-13 00:19:00] Creating metadata for TVAE...
+[2025-10-13 00:19:01] Training TVAE synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-13 00:50:01] TVAE synthesizer training completed in 1860.54 seconds
+[2025-10-13 00:50:01] Generating synthetic data with TVAE (LONG OPERATION)...
+[2025-10-13 00:50:08] Synthetic data generation completed in 1868.08 seconds
+[2025-10-13 00:50:08] Combining real and synthetic data...
+[2025-10-13 00:50:08] Augmented dataset size: 1102 samples
+[2025-10-13 00:50:08] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-13 00:50:08] TVAE - Accuracy: 0.6957, F1: 0.6956
+[2025-10-13 00:50:08] Total TVAE processing time: 1868.35 seconds
+[2025-10-13 00:50:08] Saving benchmark results to 2_poc_simulacra\GSE42861_benchmark_seed_931782.pkl...
+[2025-10-13 00:50:11] Benchmark results saved successfully
+[2025-10-13 00:50:11] 
+=== Running benchmark with seed 8481962 ===
+[2025-10-13 00:50:11] Starting benchmark for GSE42861 with seed 8481962...
+[2025-10-13 00:50:11] Loading combined embeddings with target...
+[2025-10-13 00:50:11] Loaded dataframe shape: (689, 513)
+[2025-10-13 00:50:11] Creating train/test split (test_fraction=0.2)...
+[2025-10-13 00:50:11] Split sizes - Train: 551, Test: 138
+[2025-10-13 00:50:11] === Training Baseline Classifier ===
+[2025-10-13 00:50:11] Baseline - Accuracy: 0.7391, F1: 0.7386
+[2025-10-13 00:50:11] === Training GaussianCopula Augmented Classifier ===
+[2025-10-13 00:50:11] Creating metadata for GaussianCopula...
+[2025-10-13 00:50:12] Training GaussianCopula synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-13 00:51:18] GaussianCopula synthesizer training completed in 66.16 seconds
+[2025-10-13 00:51:18] Generating synthetic data with GaussianCopula (LONG OPERATION)...
+[2025-10-13 00:51:24] Synthetic data generation completed in 72.63 seconds
+[2025-10-13 00:51:24] Combining real and synthetic data...
+[2025-10-13 00:51:24] Augmented dataset size: 1102 samples
+[2025-10-13 00:51:24] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-13 00:51:24] GaussianCopula - Accuracy: 0.7246, F1: 0.7244
+[2025-10-13 00:51:24] Total GaussianCopula processing time: 72.81 seconds
+[2025-10-13 00:51:24] === Training CTGAN Augmented Classifier ===
+[2025-10-13 00:51:24] Creating metadata for CTGAN...
+[2025-10-13 00:51:25] Training CTGAN synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+PerformanceAlert: Using the CTGANSynthesizer on this data is not recommended. To model this data, CTGAN will generate a large number of columns.
+
+Original Column Name   Est # of Columns (CTGAN)
+disease                2
+emb_0                  11
+emb_1                  11
+emb_2                  11
+emb_3                  11
+emb_4                  11
+emb_5                  11
+emb_6                  11
+emb_7                  11
+emb_8                  11
+emb_9                  11
+emb_10                 11
+emb_11                 11
+emb_12                 11
+emb_13                 11
+emb_14                 11
+emb_15                 11
+emb_16                 11
+emb_17                 11
+emb_18                 11
+emb_19                 11
+emb_20                 11
+emb_21                 11
+emb_22                 11
+emb_23                 11
+emb_24                 11
+emb_25                 11
+emb_26                 11
+emb_27                 11
+emb_28                 11
+emb_29                 11
+emb_30                 11
+emb_31                 11
+emb_32                 11
+emb_33                 11
+emb_34                 11
+emb_35                 11
+emb_36                 11
+emb_37                 11
+emb_38                 11
+emb_39                 11
+emb_40                 11
+emb_41                 11
+emb_42                 11
+emb_43                 11
+emb_44                 11
+emb_45                 11
+emb_46                 11
+emb_47                 11
+emb_48                 11
+emb_49                 11
+emb_50                 11
+emb_51                 11
+emb_52                 11
+emb_53                 11
+emb_54                 11
+emb_55                 11
+emb_56                 11
+emb_57                 11
+emb_58                 11
+emb_59                 11
+emb_60                 11
+emb_61                 11
+emb_62                 11
+emb_63                 11
+emb_64                 11
+emb_65                 11
+emb_66                 11
+emb_67                 11
+emb_68                 11
+emb_69                 11
+emb_70                 11
+emb_71                 11
+emb_72                 11
+emb_73                 11
+emb_74                 11
+emb_75                 11
+emb_76                 11
+emb_77                 11
+emb_78                 11
+emb_79                 11
+emb_80                 11
+emb_81                 11
+emb_82                 11
+emb_83                 11
+emb_84                 11
+emb_85                 11
+emb_86                 11
+emb_87                 11
+emb_88                 11
+emb_89                 11
+emb_90                 11
+emb_91                 11
+emb_92                 11
+emb_93                 11
+emb_94                 11
+emb_95                 11
+emb_96                 11
+emb_97                 11
+emb_98                 11
+emb_99                 11
+emb_100                11
+emb_101                11
+emb_102                11
+emb_103                11
+emb_104                11
+emb_105                11
+emb_106                11
+emb_107                11
+emb_108                11
+emb_109                11
+emb_110                11
+emb_111                11
+emb_112                11
+emb_113                11
+emb_114                11
+emb_115                11
+emb_116                11
+emb_117                11
+emb_118                11
+emb_119                11
+emb_120                11
+emb_121                11
+emb_122                11
+emb_123                11
+emb_124                11
+emb_125                11
+emb_126                11
+emb_127                11
+emb_128                11
+emb_129                11
+emb_130                11
+emb_131                11
+emb_132                11
+emb_133                11
+emb_134                11
+emb_135                11
+emb_136                11
+emb_137                11
+emb_138                11
+emb_139                11
+emb_140                11
+emb_141                11
+emb_142                11
+emb_143                11
+emb_144                11
+emb_145                11
+emb_146                11
+emb_147                11
+emb_148                11
+emb_149                11
+emb_150                11
+emb_151                11
+emb_152                11
+emb_153                11
+emb_154                11
+emb_155                11
+emb_156                11
+emb_157                11
+emb_158                11
+emb_159                11
+emb_160                11
+emb_161                11
+emb_162                11
+emb_163                11
+emb_164                11
+emb_165                11
+emb_166                11
+emb_167                11
+emb_168                11
+emb_169                11
+emb_170                11
+emb_171                11
+emb_172                11
+emb_173                11
+emb_174                11
+emb_175                11
+emb_176                11
+emb_177                11
+emb_178                11
+emb_179                11
+emb_180                11
+emb_181                11
+emb_182                11
+emb_183                11
+emb_184                11
+emb_185                11
+emb_186                11
+emb_187                11
+emb_188                11
+emb_189                11
+emb_190                11
+emb_191                11
+emb_192                11
+emb_193                11
+emb_194                11
+emb_195                11
+emb_196                11
+emb_197                11
+emb_198                11
+emb_199                11
+emb_200                11
+emb_201                11
+emb_202                11
+emb_203                11
+emb_204                11
+emb_205                11
+emb_206                11
+emb_207                11
+emb_208                11
+emb_209                11
+emb_210                11
+emb_211                11
+emb_212                11
+emb_213                11
+emb_214                11
+emb_215                11
+emb_216                11
+emb_217                11
+emb_218                11
+emb_219                11
+emb_220                11
+emb_221                11
+emb_222                11
+emb_223                11
+emb_224                11
+emb_225                11
+emb_226                11
+emb_227                11
+emb_228                11
+emb_229                11
+emb_230                11
+emb_231                11
+emb_232                11
+emb_233                11
+emb_234                11
+emb_235                11
+emb_236                11
+emb_237                11
+emb_238                11
+emb_239                11
+emb_240                11
+emb_241                11
+emb_242                11
+emb_243                11
+emb_244                11
+emb_245                11
+emb_246                11
+emb_247                11
+emb_248                11
+emb_249                11
+emb_250                11
+emb_251                11
+emb_252                11
+emb_253                11
+emb_254                11
+emb_255                11
+emb_256                11
+emb_257                11
+emb_258                11
+emb_259                11
+emb_260                11
+emb_261                11
+emb_262                11
+emb_263                11
+emb_264                11
+emb_265                11
+emb_266                11
+emb_267                11
+emb_268                11
+emb_269                11
+emb_270                11
+emb_271                11
+emb_272                11
+emb_273                11
+emb_274                11
+emb_275                11
+emb_276                11
+emb_277                11
+emb_278                11
+emb_279                11
+emb_280                11
+emb_281                11
+emb_282                11
+emb_283                11
+emb_284                11
+emb_285                11
+emb_286                11
+emb_287                11
+emb_288                11
+emb_289                11
+emb_290                11
+emb_291                11
+emb_292                11
+emb_293                11
+emb_294                11
+emb_295                11
+emb_296                11
+emb_297                11
+emb_298                11
+emb_299                11
+emb_300                11
+emb_301                11
+emb_302                11
+emb_303                11
+emb_304                11
+emb_305                11
+emb_306                11
+emb_307                11
+emb_308                11
+emb_309                11
+emb_310                11
+emb_311                11
+emb_312                11
+emb_313                11
+emb_314                11
+emb_315                11
+emb_316                11
+emb_317                11
+emb_318                11
+emb_319                11
+emb_320                11
+emb_321                11
+emb_322                11
+emb_323                11
+emb_324                11
+emb_325                11
+emb_326                11
+emb_327                11
+emb_328                11
+emb_329                11
+emb_330                11
+emb_331                11
+emb_332                11
+emb_333                11
+emb_334                11
+emb_335                11
+emb_336                11
+emb_337                11
+emb_338                11
+emb_339                11
+emb_340                11
+emb_341                11
+emb_342                11
+emb_343                11
+emb_344                11
+emb_345                11
+emb_346                11
+emb_347                11
+emb_348                11
+emb_349                11
+emb_350                11
+emb_351                11
+emb_352                11
+emb_353                11
+emb_354                11
+emb_355                11
+emb_356                11
+emb_357                11
+emb_358                11
+emb_359                11
+emb_360                11
+emb_361                11
+emb_362                11
+emb_363                11
+emb_364                11
+emb_365                11
+emb_366                11
+emb_367                11
+emb_368                11
+emb_369                11
+emb_370                11
+emb_371                11
+emb_372                11
+emb_373                11
+emb_374                11
+emb_375                11
+emb_376                11
+emb_377                11
+emb_378                11
+emb_379                11
+emb_380                11
+emb_381                11
+emb_382                11
+emb_383                11
+emb_384                11
+emb_385                11
+emb_386                11
+emb_387                11
+emb_388                11
+emb_389                11
+emb_390                11
+emb_391                11
+emb_392                11
+emb_393                11
+emb_394                11
+emb_395                11
+emb_396                11
+emb_397                11
+emb_398                11
+emb_399                11
+emb_400                11
+emb_401                11
+emb_402                11
+emb_403                11
+emb_404                11
+emb_405                11
+emb_406                11
+emb_407                11
+emb_408                11
+emb_409                11
+emb_410                11
+emb_411                11
+emb_412                11
+emb_413                11
+emb_414                11
+emb_415                11
+emb_416                11
+emb_417                11
+emb_418                11
+emb_419                11
+emb_420                11
+emb_421                11
+emb_422                11
+emb_423                11
+emb_424                11
+emb_425                11
+emb_426                11
+emb_427                11
+emb_428                11
+emb_429                11
+emb_430                11
+emb_431                11
+emb_432                11
+emb_433                11
+emb_434                11
+emb_435                11
+emb_436                11
+emb_437                11
+emb_438                11
+emb_439                11
+emb_440                11
+emb_441                11
+emb_442                11
+emb_443                11
+emb_444                11
+emb_445                11
+emb_446                11
+emb_447                11
+emb_448                11
+emb_449                11
+emb_450                11
+emb_451                11
+emb_452                11
+emb_453                11
+emb_454                11
+emb_455                11
+emb_456                11
+emb_457                11
+emb_458                11
+emb_459                11
+emb_460                11
+emb_461                11
+emb_462                11
+emb_463                11
+emb_464                11
+emb_465                11
+emb_466                11
+emb_467                11
+emb_468                11
+emb_469                11
+emb_470                11
+emb_471                11
+emb_472                11
+emb_473                11
+emb_474                11
+emb_475                11
+emb_476                11
+emb_477                11
+emb_478                11
+emb_479                11
+emb_480                11
+emb_481                11
+emb_482                11
+emb_483                11
+emb_484                11
+emb_485                11
+emb_486                11
+emb_487                11
+emb_488                11
+emb_489                11
+emb_490                11
+emb_491                11
+emb_492                11
+emb_493                11
+emb_494                11
+emb_495                11
+emb_496                11
+emb_497                11
+emb_498                11
+emb_499                11
+emb_500                11
+emb_501                11
+emb_502                11
+emb_503                11
+emb_504                11
+emb_505                11
+emb_506                11
+emb_507                11
+emb_508                11
+emb_509                11
+emb_510                11
+emb_511                11
+
+We recommend preprocessing discrete columns that can have many values, using 'update_transformers'. Or you may drop columns that are not necessary to model. (Exit this script using ctrl-C)
+[2025-10-13 01:13:28] CTGAN synthesizer training completed in 1324.05 seconds
+[2025-10-13 01:13:28] Generating synthetic data with CTGAN (LONG OPERATION)...
+[2025-10-13 01:13:38] Synthetic data generation completed in 1333.97 seconds
+[2025-10-13 01:13:38] Combining real and synthetic data...
+[2025-10-13 01:13:38] Augmented dataset size: 1102 samples
+[2025-10-13 01:13:38] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-13 01:13:38] CTGAN - Accuracy: 0.7319, F1: 0.7312
+[2025-10-13 01:13:38] Total CTGAN processing time: 1334.15 seconds
+[2025-10-13 01:13:38] === Training TVAE Augmented Classifier ===
+[2025-10-13 01:13:38] Creating metadata for TVAE...
+[2025-10-13 01:13:39] Training TVAE synthesizer (LONG OPERATION)...
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:162: FutureWarning: The 'SingleTableMetadata' is deprecated. Please use the new 'Metadata' class for synthesizers.
+  warnings.warn(DEPRECATION_MSG, FutureWarning)
+C:\Users\ferdi\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\sdv\single_table\base.py:128: UserWarning: We strongly recommend saving the metadata using 'save_to_json' for replicability in future SDV versions.
+  warnings.warn(
+[2025-10-13 01:39:07] TVAE synthesizer training completed in 1528.08 seconds
+[2025-10-13 01:39:07] Generating synthetic data with TVAE (LONG OPERATION)...
+[2025-10-13 01:39:14] Synthetic data generation completed in 1535.89 seconds
+[2025-10-13 01:39:14] Combining real and synthetic data...
+[2025-10-13 01:39:14] Augmented dataset size: 1102 samples
+[2025-10-13 01:39:14] Training classifier on augmented data (LONG OPERATION)...
+[2025-10-13 01:39:15] TVAE - Accuracy: 0.7391, F1: 0.7383
+[2025-10-13 01:39:15] Total TVAE processing time: 1536.10 seconds
+[2025-10-13 01:39:15] Saving benchmark results to 2_poc_simulacra\GSE42861_benchmark_seed_8481962.pkl...
+[2025-10-13 01:39:17] Benchmark results saved successfully
+[2025-10-13 01:39:17] 
+=== Computing Statistics Across Seeds ===
+[2025-10-13 01:39:17] 
+=== BENCHMARK RESULTS SUMMARY ===
+[2025-10-13 01:39:17] Method                Accuracy (mean ± std)    F1 Macro (mean ± std)
+[2025-10-13 01:39:17] ----------------------------------------------------------------------
+[2025-10-13 01:39:17] baseline             0.7415 ± 0.0385        0.7412 ± 0.0383
+[2025-10-13 01:39:17] GaussianCopula       0.7391 ± 0.0542        0.7386 ± 0.0542
+[2025-10-13 01:39:17] CTGAN                0.7415 ± 0.0304        0.7412 ± 0.0304
+[2025-10-13 01:39:17] TVAE                 0.7440 ± 0.0416        0.7436 ± 0.0415
+[2025-10-13 01:39:17] 
+Benchmark experiment completed successfully!
+[2025-10-13 01:39:17] Results saved in 'all_results' and 'summary_stats' variables
