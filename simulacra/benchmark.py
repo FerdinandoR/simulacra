@@ -1,7 +1,7 @@
 import os
 import pickle
 from datetime import datetime
-from typing import Any, Dict, Iterable, List, Tuple, Union
+from typing import Any, Dict, Iterable, List, Tuple, Union, Optional
 
 import numpy as np
 import pandas as pd
@@ -10,12 +10,18 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sdv.metadata import SingleTableMetadata
+from sdv.metadata import Metadata
 from sdv.single_table import (
     CTGANSynthesizer,
     TVAESynthesizer,
     GaussianCopulaSynthesizer,
 )
+
+try:
+    import torch
+    CUDA_AVAILABLE = torch.cuda.is_available()
+except ImportError:
+    CUDA_AVAILABLE = False
 
 
 def _log(message: str) -> None:
@@ -74,10 +80,18 @@ def benchmark_classifiers(
     test_fraction: float = 0.2,
     seed: int = 42,
     multipliers: Union[Tuple[Union[int, float], ...], int, float] = (1, 2),
+    use_cuda: Optional[bool] = None,
 ) -> Dict[str, Dict[str, Any]]:
     multipliers_t = _normalize_multipliers(multipliers)
-
+    
+    # Determine CUDA usage
+    if use_cuda is None:
+        use_cuda = CUDA_AVAILABLE
+    elif use_cuda and not CUDA_AVAILABLE:
+        raise RuntimeError("CUDA requested but not available. Please install CUDA-enabled PyTorch or set use_cuda=False.")
+    
     _log(f"Starting benchmark for {accession} with seed {seed} and multipliers {multipliers_t}...")
+    _log(f"CUDA usage: {'Enabled' if use_cuda else 'Disabled'}")
 
     data_dir = "2_poc_simulacra"
     combined_path = os.path.join(data_dir, f"{accession}_embeddings_with_target.csv")
@@ -132,22 +146,39 @@ def benchmark_classifiers(
         }
     }
 
-    # Synthesizers
+    # Synthesizers with CUDA support
     synthesizers = {
         "GaussianCopula": GaussianCopulaSynthesizer,
         "CTGAN": CTGANSynthesizer,
         "TVAE": TVAESynthesizer,
     }
+    
+    # CUDA-enabled synthesizers
+    cuda_synthesizers = {"CTGAN", "TVAE"}
 
     for synth_name, synth_class in synthesizers.items():
         _log(f"=== Training {synth_name} Augmented Classifiers ===")
         step_start = datetime.now()
 
-        metadata = SingleTableMetadata()
+        metadata = Metadata()
         metadata.detect_from_dataframe(train_df)
+        
+        # Save metadata for reproducibility
+        metadata_path = os.path.join(data_dir, f"{accession}_{synth_name}_metadata_seed_{seed}.json")
+        metadata.save_to_json(metadata_path)
+        _log(f"Metadata saved to {metadata_path}")
 
         _log(f"Training {synth_name} synthesizer (LONG OPERATION)...")
-        synth = synth_class(metadata)
+        
+        # Configure synthesizer with CUDA if supported
+        if synth_name in cuda_synthesizers and use_cuda:
+            synth = synth_class(metadata, cuda=True)
+            _log(f"Using CUDA acceleration for {synth_name}")
+        else:
+            synth = synth_class(metadata)
+            if synth_name in cuda_synthesizers:
+                _log(f"Using CPU for {synth_name} (CUDA disabled)")
+        
         synth.fit(train_df)
         _log(
             f"{synth_name} synthesizer training completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
@@ -195,6 +226,7 @@ def run_benchmark_experiment(
     accession: str,
     seeds: List[int] = [42, 931782, 8481962],
     multipliers: Union[Tuple[Union[int, float], ...], int, float] = (1, 2),
+    use_cuda: Optional[bool] = None,
 ) -> Tuple[Dict[int, Dict[str, Any]], Dict[str, Any]]:
     multipliers_t = _normalize_multipliers(multipliers)
 
@@ -205,7 +237,7 @@ def run_benchmark_experiment(
     all_results: Dict[int, Dict[str, Any]] = {}
     for seed in seeds:
         _log(f"\n=== Running benchmark with seed {seed} ===")
-        results = benchmark_classifiers(accession, test_fraction=0.2, seed=seed, multipliers=multipliers_t)
+        results = benchmark_classifiers(accession, test_fraction=0.2, seed=seed, multipliers=multipliers_t, use_cuda=use_cuda)
         all_results[seed] = results
 
     _log("\n=== Computing Statistics Across Seeds ===")
