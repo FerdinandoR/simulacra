@@ -23,6 +23,8 @@ try:
 except ImportError:
     CUDA_AVAILABLE = False
 
+import warnings
+
 
 def _log(message: str) -> None:
     print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
@@ -179,7 +181,21 @@ def benchmark_classifiers(
             if synth_name in cuda_synthesizers:
                 _log(f"Using CPU for {synth_name} (CUDA disabled)")
         
-        synth.fit(train_df)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            synth.fit(train_df)
+            
+            # Check for PerformanceAlert warnings
+            for warning in w:
+                if "PerformanceAlert" in str(warning.message):
+                    error_msg = str(warning.message)
+                    lines = error_msg.split('\n')
+                    if len(lines) > 10:
+                        formatted_msg = '\n'.join(lines[:5]) + '\n...\n' + '\n'.join(lines[-5:])
+                        _log(f"PerformanceAlert for {synth_name}: {formatted_msg}")
+                    else:
+                        _log(f"PerformanceAlert for {synth_name}: {error_msg}")
+                    break
         _log(
             f"{synth_name} synthesizer training completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
         )
