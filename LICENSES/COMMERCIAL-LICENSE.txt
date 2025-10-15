@@ -1,0 +1,33 @@
+Simulacra — Commercial License (Stub)
+
+This is a simplified summary of the commercial license offering for Simulacra. 
+It is not the final agreement. For a binding agreement, contact the licensor.
+
+Licensor: Ferdinando Randisi
+Contact: ferdinando.randisi@gmail.com
+
+Grant:
+- Non-exclusive, non-transferable license to use the software for internal and external commercial purposes.
+- Right to create derivative works and keep them proprietary (no copyleft obligations).
+- Right to distribute, sublicense within your organization and to your customers as part of your product or service, subject to the agreement.
+
+Restrictions:
+- No redistribution of the software as a standalone competing offering.
+- No removal of copyright notices.
+- No use of licensor’s trademarks except as permitted.
+
+Support/Updates:
+- Optional paid support, SLAs, and update terms to be defined in the final agreement.
+
+Fees:
+- Annual subscription or one-time fee, tiered by company size/usage. To be negotiated.
+
+Warranty/Indemnity:
+- Custom warranty and indemnity terms available in the final agreement.
+
+Governing Law/Dispute Resolution:
+- To be defined in the final agreement.
+
+Note: If you have not executed a commercial license agreement with the licensor, your use of Simulacra is governed by the AGPL-3.0.
+
+

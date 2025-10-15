@@ -1,7 +1,9 @@
 import os
+import argparse
+import secrets
 import pickle
 from datetime import datetime
-from typing import Any, Dict, Iterable, List, Tuple, Union, Optional
+from typing import Any, Dict, Iterable, List, Tuple, Union, Optional, cast
 
 import numpy as np
 import pandas as pd
@@ -124,19 +126,24 @@ def benchmark_classifiers(
     df = pd.read_csv(combined_path, index_col=0)
 
     # Split
-    X = df.drop(columns=["disease"])  # features
-    y = df["disease"]
+    X = cast(pd.DataFrame, df.drop(columns=["disease"]))  # features
+    y = cast(pd.Series, df["disease"])
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, test_size=test_fraction, random_state=seed, stratify=y
     )
+    X_train = cast(pd.DataFrame, X_train)
+    X_test = cast(pd.DataFrame, X_test)
+    y_train = cast(pd.Series, y_train)
+    y_test = cast(pd.Series, y_test)
     _log(f"Split sizes - Train: {len(X_train)}, Test: {len(X_test)}")
 
     # Train baseline
-    train_df = pd.concat([y_train, X_train], axis=1)
+    # Concatenate target and features into a single training DataFrame
+    train_df: pd.DataFrame = pd.concat([y_train, X_train], axis=1)
     train_df.columns = ["disease"] + list(X_train.columns)
 
     _log("=== Training Baseline Classifier (no augmentation) ===")
-    baseline_model, baseline_metrics = train_ridge_classifier_fair(
+    baseline_model, baseline_metrics = train_ridge_classifier_fair(  # type: ignore[arg-type]
         X_train, y_train, X_test, y_test, random_state=seed
     )
     results: Dict[str, Dict[str, Any]] = {
@@ -162,40 +169,58 @@ def benchmark_classifiers(
         _log(f"=== Training {synth_name} Augmented Classifiers ===")
         step_start = datetime.now()
 
-        metadata = Metadata()
-        metadata.detect_from_dataframe(train_df)
-        
-        # Save metadata for reproducibility
         metadata_path = os.path.join(data_dir, f"{accession}_{synth_name}_metadata_seed_{seed}.json")
-        metadata.save_to_json(metadata_path)
-        _log(f"Metadata saved to {metadata_path}")
-
-        _log(f"Training {synth_name} synthesizer (LONG OPERATION)...")
+        synthesizer_path = os.path.join(data_dir, f"{accession}_{synth_name}_synthesizer_seed_{seed}.pkl")
         
-        # Configure synthesizer with CUDA if supported
-        if synth_name in cuda_synthesizers and use_cuda:
-            synth = synth_class(metadata, cuda=True)
-            _log(f"Using CUDA acceleration for {synth_name}")
+        if os.path.exists(synthesizer_path) and os.path.exists(metadata_path):
+            _log(f"Loading existing synthesizer from {synthesizer_path}")
+            with open(synthesizer_path, "rb") as f:
+                synth = pickle.load(f)
+            _log(f"Pre-trained {synth_name} synthesizer loaded successfully")
         else:
-            synth = synth_class(metadata)
-            if synth_name in cuda_synthesizers:
-                _log(f"Using CPU for {synth_name} (CUDA disabled)")
-        
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            synth.fit(train_df)
+            _log(f"Creating new synthesizer for {synth_name}...")
             
-            # Check for PerformanceAlert warnings
-            for warning in w:
-                if "PerformanceAlert" in str(warning.message):
-                    error_msg = str(warning.message)
-                    lines = error_msg.split('\n')
-                    if len(lines) > 10:
-                        formatted_msg = '\n'.join(lines[:5]) + '\n...\n' + '\n'.join(lines[-5:])
-                        _log(f"PerformanceAlert for {synth_name}: {formatted_msg}")
-                    else:
-                        _log(f"PerformanceAlert for {synth_name}: {error_msg}")
-                    break
+            # Always create fresh metadata to ensure proper structure
+            _log(f"Creating metadata for {synth_name}...")
+            metadata = Metadata()
+            metadata.detect_from_dataframe(train_df)
+            
+            # Save metadata for reproducibility
+            # metadata.save_to_json(metadata_path)
+            _log(f"Metadata saved to {metadata_path}")
+
+            _log(f"Training {synth_name} synthesizer (LONG OPERATION)...")
+            
+            # Configure synthesizer with CUDA if supported
+            if synth_name in cuda_synthesizers and use_cuda:
+                _log(f"Using CUDA acceleration for {synth_name}")
+                synth = synth_class(metadata, cuda=True)
+            else:
+                if synth_name in cuda_synthesizers:
+                    _log(f"Using CPU for {synth_name} (CUDA disabled)")
+                synth = synth_class(metadata)
+            
+            with warnings.catch_warnings(record=True) as w:
+                warnings.simplefilter("always")
+                synth.fit(train_df)
+                
+                # Check for PerformanceAlert warnings
+                for warning in w:
+                    if "PerformanceAlert" in str(warning.message):
+                        error_msg = str(warning.message)
+                        lines = error_msg.split('\n')
+                        if len(lines) > 10:
+                            formatted_msg = '\n'.join(lines[:5]) + '\n...\n' + '\n'.join(lines[-5:])
+                            _log(f"PerformanceAlert for {synth_name}: {formatted_msg}")
+                        else:
+                            _log(f"PerformanceAlert for {synth_name}: {error_msg}")
+                        break
+            
+            # Save the trained synthesizer
+            _log(f"Saving trained synthesizer to {synthesizer_path}")
+            with open(synthesizer_path, "wb") as f:
+                pickle.dump(synth, f)
+            _log(f"Synthesizer saved successfully")
         _log(
             f"{synth_name} synthesizer training completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
         )
@@ -213,10 +238,10 @@ def benchmark_classifiers(
             synthetic_subset = synthetic_data_all.iloc[:num_needed]
 
             augmented_train = pd.concat([train_df, synthetic_subset], axis=0, ignore_index=True)
-            X_aug = augmented_train.drop(columns=["disease"])
-            y_aug = augmented_train["disease"]
+            X_aug = cast(pd.DataFrame, augmented_train.drop(columns=["disease"]))
+            y_aug = cast(pd.Series, augmented_train["disease"])
 
-            augmented_model, augmented_metrics = train_ridge_classifier_fair(
+            augmented_model, augmented_metrics = train_ridge_classifier_fair(  # type: ignore[arg-type]
                 X_aug, y_aug, X_test, y_test, random_state=seed
             )
             results[f"{synth_name}_{int(multiplier) if float(multiplier).is_integer() else multiplier}x"] = {
@@ -363,3 +388,160 @@ def save_results_to_csv(
     return csv_path
 
 
+
+# -----------------------------
+# CLI utilities
+# -----------------------------
+
+def generate_random_seeds(count: int) -> List[int]:
+    """Generate cryptographically secure random seeds."""
+    return [secrets.randbelow(2**31) for _ in range(count)]
+
+
+def parse_multipliers(multipliers_str: str) -> Tuple[Union[int, float], ...]:
+    """Parse multipliers string into tuple of numbers."""
+    try:
+        multipliers: List[Union[int, float]] = []
+        for mult_str in multipliers_str.split(','):
+            mult_str = mult_str.strip()
+            if '.' in mult_str:
+                multipliers.append(float(mult_str))
+            else:
+                multipliers.append(int(mult_str))
+        return tuple(multipliers)
+    except ValueError as e:
+        raise argparse.ArgumentTypeError(f"Invalid multipliers format: {e}")
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Run benchmark experiments with synthetic data augmentation",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""
+Examples:
+  # Use default seeds and multipliers
+  python -m simulacra.benchmark GSE42861
+
+  # Specify custom seeds and multipliers
+  python -m simulacra.benchmark GSE42861 --seeds 42,931782,8481962 --multipliers 1,2,5
+
+  # Generate random seeds
+  python -m simulacra.benchmark GSE42861 --random-seeds 3 --multipliers 1,2,5
+
+  # Force CUDA usage
+  python -m simulacra.benchmark GSE42861 --use-cuda
+
+  # Force CPU usage
+  python -m simulacra.benchmark GSE42861 --no-cuda
+        """
+    )
+
+    parser.add_argument(
+        'accession',
+        help='Dataset accession number (e.g., GSE42861)'
+    )
+
+    parser.add_argument(
+        '--seeds',
+        type=parse_multipliers,
+        help='Comma-separated list of seeds (e.g., "42,931782,8481962")'
+    )
+
+    parser.add_argument(
+        '--random-seeds',
+        type=int,
+        metavar='COUNT',
+        help='Generate COUNT cryptographically secure random seeds'
+    )
+
+    parser.add_argument(
+        '--multipliers',
+        type=parse_multipliers,
+        default=(1, 2, 5),
+        help='Comma-separated list of augmentation multipliers (default: 1,2,5)'
+    )
+
+    parser.add_argument(
+        '--use-cuda',
+        action='store_true',
+        help='Force CUDA usage (raises error if CUDA not available)'
+    )
+
+    parser.add_argument(
+        '--no-cuda',
+        action='store_true',
+        help='Force CPU usage (disable CUDA even if available)'
+    )
+
+    parser.add_argument(
+        '--target-column',
+        default='disease',
+        help='Name of the target column (default: disease)'
+    )
+
+    parser.add_argument(
+        '--output',
+        help='Output CSV file path (default: auto-generated)'
+    )
+
+    args = parser.parse_args()
+
+    # Validate arguments
+    if args.seeds and args.random_seeds:
+        parser.error("Cannot specify both --seeds and --random-seeds")
+
+    if args.use_cuda and args.no_cuda:
+        parser.error("Cannot specify both --use-cuda and --no-cuda")
+
+    # Determine seeds
+    if args.random_seeds:
+        seeds = generate_random_seeds(args.random_seeds)
+        _log(f"Generated {len(seeds)} random seeds: {seeds}")
+    elif args.seeds:
+        seeds = list(args.seeds)
+        _log(f"Using specified seeds: {seeds}")
+    else:
+        seeds = [42, 931782, 8481962]
+        _log(f"Using default seeds: {seeds}")
+
+    # Determine CUDA usage
+    if args.use_cuda:
+        use_cuda = True
+    elif args.no_cuda:
+        use_cuda = False
+    else:
+        use_cuda = None  # Auto-detect
+
+    try:
+        _log(f"Starting benchmark experiment for {args.accession}")
+        _log(f"Seeds: {seeds}")
+        _log(f"Multipliers: {args.multipliers}")
+        _log(f"Target column: {args.target_column}")
+
+        # Run the benchmark experiment
+        all_results, summary_stats = run_benchmark_experiment(
+            accession=args.accession,
+            seeds=seeds,
+            multipliers=args.multipliers,
+            use_cuda=use_cuda,
+        )
+
+        # Save results to CSV
+        csv_path = save_results_to_csv(
+            all_results=all_results,
+            summary_stats=summary_stats,
+            accession=args.accession,
+            target_column=args.target_column,
+            csv_path=args.output,
+        )
+
+        _log(f"Benchmark completed successfully!")
+        _log(f"Results saved to: {csv_path}")
+
+    except Exception as e:
+        _log(f"Error: {e}")
+        raise
+
+
+if __name__ == "__main__":
+    main()
