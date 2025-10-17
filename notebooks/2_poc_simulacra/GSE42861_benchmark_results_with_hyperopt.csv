@@ -1,0 +1,15 @@
+accession,dnam_path,metadata_path,target_column,seed,method,multiplier,hyperparameters,accuracy,f1_macro,test_size,train_size,timestamp
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,baseline,,,0.7898550724637681,0.7893129770992366,138,551,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,GaussianCopula_1x,1.0,N/A,0.8115942028985508,0.810958904109589,138,1102,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,GaussianCopula_2x,2.0,N/A,0.8115942028985508,0.810958904109589,138,1653,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,CTGAN_1x,1.0,epochs_200,0.7681159420289855,0.7676767676767677,138,1102,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,CTGAN_2x,2.0,epochs_200,0.7753623188405797,0.775067038224933,138,1653,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,TVAE_1x,1.0,batch_1000,0.8043478260869565,0.8043375518563252,138,1102,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,42,TVAE_2x,2.0,batch_1000,0.7536231884057971,0.753416018499054,138,1653,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,baseline,N/A,N/A,0.7898550724637681,0.7893129770992366,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,CTGAN_1x,N/A,N/A,0.7681159420289855,0.7676767676767677,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,CTGAN_2x,N/A,N/A,0.7753623188405797,0.775067038224933,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,GaussianCopula_1x,N/A,N/A,0.8115942028985508,0.810958904109589,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,GaussianCopula_2x,N/A,N/A,0.8115942028985508,0.810958904109589,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,TVAE_1x,N/A,N/A,0.8043478260869565,0.8043375518563252,N/A,N/A,2025-10-17 11:39:12
+GSE42861,2_poc_simulacra\dnam.csv,2_poc_simulacra\metadata.csv,disease,SUMMARY,TVAE_2x,N/A,N/A,0.7536231884057971,0.753416018499054,N/A,N/A,2025-10-17 11:39:12

@@ -19,6 +19,7 @@ from sdv.single_table import (
     GaussianCopulaSynthesizer,
 )
 from sdv.evaluation.single_table import evaluate_quality
+from simulacra.log import _log
 from simulacra.embeddings import (
     generate_embeddings_with_pythae,
     create_embeddings_with_target,
@@ -37,8 +38,8 @@ except ImportError:
 import warnings
 
 
-def _log(message: str) -> None:
-    print(f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}] {message}")
+def _noop() -> None:
+    return None
 
 
 def train_ridge_classifier_fair(

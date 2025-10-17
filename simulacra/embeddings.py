@@ -5,7 +5,7 @@ from pythae.models import VAE, VAEConfig
 from pythae.trainers import BaseTrainerConfig
 from pythae.pipelines.training import TrainingPipeline
 from simulacra.iterable_csv_dataset import PythaeIterableDataset, DNAmDataset
-from simulacra.benchmark import _log
+from simulacra.log import _log
 
 def find_model_path(model_dir):
     """Find the actual model path within the timestamped subdirectory."""
