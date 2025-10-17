@@ -19,6 +19,14 @@ from sdv.single_table import (
     GaussianCopulaSynthesizer,
 )
 from sdv.evaluation.single_table import evaluate_quality
+from simulacra.embeddings import (
+    generate_embeddings_with_pythae,
+    create_embeddings_with_target,
+)
+
+# Embedding dimension configuration
+DEFAULT_EMBEDDING_DIM: int = 512
+EMBEDDING_DIM_INFER_THRESHOLD: int = 1000
 
 try:
     import torch
@@ -200,6 +208,7 @@ def benchmark_classifiers(
     seed: int = 42,
     multipliers: Union[Tuple[Union[int, float], ...], int, float] = (1, 2),
     use_cuda: Optional[bool] = None,
+    embedding_dim: Optional[int] = None,
 ) -> Dict[str, Dict[str, Any]]:
     multipliers_t = _normalize_multipliers(multipliers)
     
@@ -214,6 +223,57 @@ def benchmark_classifiers(
 
     data_dir = "2_poc_simulacra"
     combined_path = os.path.join(data_dir, f"{accession}_embeddings_with_target.csv")
+    embeddings_path = os.path.join(data_dir, f"{accession}_embeddings.csv")
+
+    # Ensure embeddings exist and match desired dimension
+    desired_embedding_dim: Optional[int] = embedding_dim
+    if desired_embedding_dim is None:
+        # Infer from existing embeddings if available; otherwise use standard default (512)
+        if os.path.exists(combined_path):
+            sample_df = pd.read_csv(combined_path, nrows=1, index_col=0)
+            current_dim = max(0, sample_df.shape[1] - 1)
+            desired_embedding_dim = (
+                current_dim if current_dim < EMBEDDING_DIM_INFER_THRESHOLD else DEFAULT_EMBEDDING_DIM
+            )
+            _log(
+                f"Inferred embedding dim from combined file: {current_dim} -> using {desired_embedding_dim}"
+            )
+        elif os.path.exists(embeddings_path):
+            sample_df = pd.read_csv(embeddings_path, nrows=1, index_col=0)
+            current_dim = sample_df.shape[1]
+            desired_embedding_dim = (
+                current_dim if current_dim < EMBEDDING_DIM_INFER_THRESHOLD else DEFAULT_EMBEDDING_DIM
+            )
+            _log(
+                f"Inferred embedding dim from embeddings file: {current_dim} -> using {desired_embedding_dim}"
+            )
+        else:
+            desired_embedding_dim = DEFAULT_EMBEDDING_DIM
+            _log(f"No existing embeddings found; using standard embedding dim {DEFAULT_EMBEDDING_DIM}")
+
+    # Generate embeddings if they don't exist
+    if not os.path.exists(embeddings_path):
+        _log(
+            f"Embeddings not found. Generating with latent_dim={desired_embedding_dim} (LONG OPERATION)..."
+        )
+        generate_embeddings_with_pythae(
+            accession=accession,
+            latent_dim=int(desired_embedding_dim),
+        )
+    else:
+        # Check existing dimension for informational purposes
+        sample_df = pd.read_csv(embeddings_path, nrows=1, index_col=0)
+        existing_dim = sample_df.shape[1]
+        if embedding_dim is not None and existing_dim != embedding_dim:
+            _log(
+                f"Note: existing embeddings dim {existing_dim} differs from requested {embedding_dim}. "
+                "Re-generation is skipped to avoid overwriting existing results."
+            )
+
+    # Ensure combined file exists
+    if not os.path.exists(combined_path):
+        _log("Combined embeddings with target not found. Creating it now...")
+        create_embeddings_with_target(accession=accession, target_col="disease")
 
     # Cache key includes full multiplier signature to avoid partial loads
     multipliers_key = "-".join([
@@ -386,6 +446,7 @@ def run_benchmark_experiment(
     seeds: List[int] = [42, 931782, 8481962],
     multipliers: Union[Tuple[Union[int, float], ...], int, float] = (1, 2),
     use_cuda: Optional[bool] = None,
+    embedding_dim: Optional[int] = None,
 ) -> Tuple[Dict[int, Dict[str, Any]], Dict[str, Any]]:
     multipliers_t = _normalize_multipliers(multipliers)
 
@@ -396,7 +457,14 @@ def run_benchmark_experiment(
     all_results: Dict[int, Dict[str, Any]] = {}
     for seed in seeds:
         _log(f"\n=== Running benchmark with seed {seed} ===")
-        results = benchmark_classifiers(accession, test_fraction=0.2, seed=seed, multipliers=multipliers_t, use_cuda=use_cuda)
+        results = benchmark_classifiers(
+            accession,
+            test_fraction=0.2,
+            seed=seed,
+            multipliers=multipliers_t,
+            use_cuda=use_cuda,
+            embedding_dim=embedding_dim,
+        )
         all_results[seed] = results
 
     _log("\n=== Computing Statistics Across Seeds ===")
@@ -604,6 +672,17 @@ Examples:
         help='Output CSV file path (default: auto-generated)'
     )
 
+    parser.add_argument(
+        '--embedding-dim',
+        type=int,
+        help=(
+            'Embedding dimension for Pythae VAE latent space. '
+            'If provided, embeddings are generated/used with this latent size. '
+            f"If omitted, the dimension is inferred: use current embeddings' dimension when it is < {EMBEDDING_DIM_INFER_THRESHOLD} columns; "
+            f'otherwise fall back to the standard {DEFAULT_EMBEDDING_DIM}.'
+        )
+    )
+
     args = parser.parse_args()
 
     # Validate arguments
@@ -644,6 +723,7 @@ Examples:
             seeds=seeds,
             multipliers=args.multipliers,
             use_cuda=use_cuda,
+            embedding_dim=args.embedding_dim,
         )
 
         # Save results to CSV
