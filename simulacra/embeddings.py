@@ -174,3 +174,56 @@ def generate_embeddings_with_pythae(accession: str, n_dnam_cols: int = 100, late
     _log(f"Generated embeddings: {embeddings_df.shape[0]} rows, {embeddings_df.shape[1]} columns")
     
     return embeddings_path
+
+def create_embeddings_with_target(accession: str, target_col: str = "disease"):
+    """
+    Create a new dataframe combining embeddings with target column.
+    
+    Args:
+        accession (str): GSE accession number (e.g., 'GSE42861')
+        target_col (str): Name of the target column from metadata
+    
+    Returns:
+        pd.DataFrame: Combined dataframe with target as first column, followed by embeddings
+    """
+    _log(f"Creating combined dataframe for {accession} with target column '{target_col}'...")
+    
+    # Define paths
+    data_dir = "2_poc_simulacra"
+    embeddings_path = os.path.join(data_dir, f"{accession}_embeddings.csv")
+    metadata_path = os.path.join(data_dir, "metadata.csv")
+    combined_path = os.path.join(data_dir, f"{accession}_embeddings_with_target.csv")
+    
+    # Check if combined file already exists
+    if os.path.exists(combined_path):
+        _log(f"Loading existing combined dataframe from {combined_path}...")
+        combined_df = pd.read_csv(combined_path, index_col=0)
+        _log(f"Loaded combined dataframe: {combined_df.shape[0]} rows, {combined_df.shape[1]} columns")
+        return combined_df
+    
+    # Load embeddings and metadata
+    _log("Loading embeddings and metadata...")
+    embeddings_df = pd.read_csv(embeddings_path, index_col=0)
+    metadata_df = pd.read_csv(metadata_path, index_col=0)
+    
+    _log(f"Embeddings shape: {embeddings_df.shape}")
+    _log(f"Metadata shape: {metadata_df.shape}")
+    
+    # Check if target column exists in metadata
+    if target_col not in metadata_df.columns:
+        available_cols = list(metadata_df.columns)
+        raise ValueError(f"Target column '{target_col}' not found in metadata. Available columns: {available_cols}")
+    
+    # Join on index to combine the dataframes
+    _log("Combining embeddings with target column...")
+    combined_df = pd.concat([metadata_df[[target_col]], embeddings_df], axis=1, join='inner')
+    
+    _log(f"Combined dataframe shape: {combined_df.shape}")
+    _log(f"Target column '{target_col}' unique values: {combined_df[target_col].unique()}")
+    
+    # Save the combined dataframe
+    _log(f"Saving combined dataframe to {combined_path}...")
+    combined_df.to_csv(combined_path)
+    _log("Combined dataframe saved successfully")
+    
+    return combined_df
