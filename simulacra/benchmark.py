@@ -12,12 +12,13 @@ from sklearn.metrics import accuracy_score, f1_score, classification_report
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
-from sdv.metadata import Metadata
+from sdv.metadata import Metadata, SingleTableMetadata
 from sdv.single_table import (
     CTGANSynthesizer,
     TVAESynthesizer,
     GaussianCopulaSynthesizer,
 )
+from sdv.evaluation.single_table import evaluate_quality
 
 try:
     import torch
@@ -64,6 +65,120 @@ def train_ridge_classifier_fair(
         "test_size": len(y_test_clean),
     }
     return model, metrics
+
+
+def optimize_synthesizer_hyperparameters(
+    synthesizer_type: str,
+    train_data: pd.DataFrame,
+    metadata: Metadata,
+    num_candidates: int = 5,
+    sample_size: int = 2000,
+    use_cuda: bool = False,
+) -> Tuple[Any, str]:
+    """
+    Optimize synthesizer by testing different configurations and selecting the best.
+    
+    Args:
+        synthesizer_type: Type of synthesizer ('GaussianCopula', 'CTGAN', 'TVAE')
+        train_data: Training data with target column
+        metadata: SDV metadata object
+        num_candidates: Number of configurations to test
+        sample_size: Size of synthetic samples for evaluation
+        use_cuda: Whether to use CUDA for GPU-enabled synthesizers
+        
+    Returns:
+        Tuple of (best_synthesizer, best_config_name)
+    """
+    
+    synthesizers = {}
+    
+    if synthesizer_type == 'GaussianCopula':
+        # Test different default distributions
+        candidates = ['gaussian_kde', 'norm', 'truncnorm', 'gamma', 'beta'][:num_candidates]
+        
+        for dist in candidates:
+            # Create fresh metadata for each synthesizer
+            synth_metadata = SingleTableMetadata()
+            synth_metadata.detect_from_dataframe(train_data)
+            synth = GaussianCopulaSynthesizer(synth_metadata, default_distribution=dist)
+            synth.fit(train_data)
+            synthesizers[dist] = synth
+            
+    elif synthesizer_type == 'CTGAN':
+        # Test different CTGAN configurations
+        candidates = ['default', 'epochs_100', 'epochs_200', 'batch_500', 'batch_1000'][:num_candidates]
+        
+        for config in candidates:
+            # Create fresh metadata for each synthesizer
+            synth_metadata = SingleTableMetadata()
+            synth_metadata.detect_from_dataframe(train_data)
+            
+            if config == 'default':
+                synth = CTGANSynthesizer(synth_metadata, cuda=use_cuda)
+            elif config == 'epochs_100':
+                synth = CTGANSynthesizer(synth_metadata, epochs=100, cuda=use_cuda)
+            elif config == 'epochs_200':
+                synth = CTGANSynthesizer(synth_metadata, epochs=200, cuda=use_cuda)
+            elif config == 'batch_500':
+                synth = CTGANSynthesizer(synth_metadata, batch_size=500, cuda=use_cuda)
+            elif config == 'batch_1000':
+                synth = CTGANSynthesizer(synth_metadata, batch_size=1000, cuda=use_cuda)
+            else:
+                raise ValueError(f"Unknown CTGAN config: {config}")
+            
+            synth.fit(train_data)
+            synthesizers[config] = synth
+            
+    elif synthesizer_type == 'TVAE':
+        # Test different TVAE configurations
+        candidates = ['default', 'epochs_100', 'epochs_200', 'batch_500', 'batch_1000'][:num_candidates]
+        
+        for config in candidates:
+            # Create fresh metadata for each synthesizer
+            synth_metadata = SingleTableMetadata()
+            synth_metadata.detect_from_dataframe(train_data)
+            
+            if config == 'default':
+                synth = TVAESynthesizer(synth_metadata, cuda=use_cuda)
+            elif config == 'epochs_100':
+                synth = TVAESynthesizer(synth_metadata, epochs=100, cuda=use_cuda)
+            elif config == 'epochs_200':
+                synth = TVAESynthesizer(synth_metadata, epochs=200, cuda=use_cuda)
+            elif config == 'batch_500':
+                synth = TVAESynthesizer(synth_metadata, batch_size=500, cuda=use_cuda)
+            elif config == 'batch_1000':
+                synth = TVAESynthesizer(synth_metadata, batch_size=1000, cuda=use_cuda)
+            else:
+                raise ValueError(f"Unknown TVAE config: {config}")
+            
+            synth.fit(train_data)
+            synthesizers[config] = synth
+    else:
+        raise ValueError(f"Unknown synthesizer type: {synthesizer_type}")
+    
+    # Evaluate each synthesizer
+    quality_scores = {}
+    for config, synth in synthesizers.items():
+        try:
+            synth_samples = synth.sample(num_rows=int(min(sample_size, len(train_data))))
+            # Create a fresh metadata for evaluation to avoid issues
+            eval_metadata = SingleTableMetadata()
+            eval_metadata.detect_from_dataframe(train_data)
+            report = evaluate_quality(real_data=train_data, synthetic_data=synth_samples, metadata=eval_metadata)
+            raw_score = report.get_score()
+            score = float(raw_score) if raw_score is not None else 0.0
+            quality_scores[config] = score
+            _log(f"{synthesizer_type} - {config}: quality score = {score:.4f}")
+        except Exception as e:
+            _log(f"{synthesizer_type} - {config}: failed with error {e}")
+            quality_scores[config] = 0.0
+    
+    # Select best configuration
+    best_config = sorted(quality_scores.items(), key=lambda kv: kv[1], reverse=True)[0][0]
+    best_synth = synthesizers[best_config]
+    _log(f"Best {synthesizer_type} configuration: {best_config}")
+    
+    return best_synth, best_config
 
 
 def _normalize_multipliers(multipliers: Union[Tuple[Union[int, float], ...], int, float]) -> Tuple[float, ...]:
@@ -175,8 +290,18 @@ def benchmark_classifiers(
         if os.path.exists(synthesizer_path) and os.path.exists(metadata_path):
             _log(f"Loading existing synthesizer from {synthesizer_path}")
             with open(synthesizer_path, "rb") as f:
-                synth = pickle.load(f)
-            _log(f"Pre-trained {synth_name} synthesizer loaded successfully")
+                synth_data = pickle.load(f)
+            
+            # Handle both old format (direct synthesizer) and new format (with hyperparameters)
+            if isinstance(synth_data, dict) and 'synthesizer' in synth_data:
+                synth = synth_data['synthesizer']
+                best_config = synth_data.get('best_config', 'unknown')
+                _log(f"Pre-trained {synth_name} synthesizer loaded successfully (config: {best_config})")
+            else:
+                # Old format - direct synthesizer object
+                synth = synth_data
+                best_config = 'N/A'
+                _log(f"Pre-trained {synth_name} synthesizer loaded successfully (legacy format)")
         else:
             _log(f"Creating new synthesizer for {synth_name}...")
             
@@ -186,40 +311,32 @@ def benchmark_classifiers(
             metadata.detect_from_dataframe(train_df)
             
             # Save metadata for reproducibility
-            # metadata.save_to_json(metadata_path)
+            metadata.save_to_json(metadata_path)
             _log(f"Metadata saved to {metadata_path}")
 
-            _log(f"Training {synth_name} synthesizer (LONG OPERATION)...")
+            _log(f"Optimizing {synth_name} synthesizer hyperparameters (LONG OPERATION)...")
             
-            # Configure synthesizer with CUDA if supported
-            if synth_name in cuda_synthesizers and use_cuda:
-                _log(f"Using CUDA acceleration for {synth_name}")
-                synth = synth_class(metadata, cuda=True)
-            else:
-                if synth_name in cuda_synthesizers:
-                    _log(f"Using CPU for {synth_name} (CUDA disabled)")
-                synth = synth_class(metadata)
+            # Use hyperparameter optimization
+            synth: Any
+            synth, best_config = optimize_synthesizer_hyperparameters(
+                synthesizer_type=synth_name,
+                train_data=train_df,
+                metadata=metadata,
+                num_candidates=5,
+                sample_size=2000,
+                use_cuda=use_cuda and synth_name in cuda_synthesizers
+            )
+            # synth is now guaranteed to be a synthesizer object
             
-            with warnings.catch_warnings(record=True) as w:
-                warnings.simplefilter("always")
-                synth.fit(train_df)
-                
-                # Check for PerformanceAlert warnings
-                for warning in w:
-                    if "PerformanceAlert" in str(warning.message):
-                        error_msg = str(warning.message)
-                        lines = error_msg.split('\n')
-                        if len(lines) > 10:
-                            formatted_msg = '\n'.join(lines[:5]) + '\n...\n' + '\n'.join(lines[-5:])
-                            _log(f"PerformanceAlert for {synth_name}: {formatted_msg}")
-                        else:
-                            _log(f"PerformanceAlert for {synth_name}: {error_msg}")
-                        break
-            
-            # Save the trained synthesizer
+            # Save the trained synthesizer with config info
+            synth_data = {
+                'synthesizer': synth,
+                'best_config': best_config,
+                'hyperparameters': best_config
+            }
             _log(f"Saving trained synthesizer to {synthesizer_path}")
             with open(synthesizer_path, "wb") as f:
-                pickle.dump(synth, f)
+                pickle.dump(synth_data, f)
             _log(f"Synthesizer saved successfully")
         _log(
             f"{synth_name} synthesizer training completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
@@ -250,6 +367,7 @@ def benchmark_classifiers(
                 "train_size": len(augmented_train),
                 "multiplier": multiplier,
                 "synthesizer": synth,
+                "hyperparameters": best_config,
             }
 
         _log(
@@ -354,6 +472,7 @@ def save_results_to_csv(
                     "seed": seed,
                     "method": method,
                     "multiplier": result_data.get("multiplier", None),
+                    "hyperparameters": result_data.get("hyperparameters", None),
                     "accuracy": metrics["accuracy"],
                     "f1_macro": metrics["f1_macro"],
                     "test_size": metrics["test_size"],
@@ -372,6 +491,7 @@ def save_results_to_csv(
                 "seed": "SUMMARY",
                 "method": method,
                 "multiplier": "N/A",
+                "hyperparameters": "N/A",
                 "accuracy": stats["accuracy"]["mean"],
                 "f1_macro": stats["f1_macro"]["mean"],
                 "test_size": "N/A",
