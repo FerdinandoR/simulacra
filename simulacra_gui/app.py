@@ -26,11 +26,46 @@ def build_preview_html(df: pd.DataFrame, highlight_cols: Optional[List[str]] = N
     return highlight_headers_html(preview_df, highlight_cols=highlight_cols, max_height=420)
 
 
+def filter_columns(columns: List[str], filter_text: str, max_display: int = 10) -> Tuple[List[str], str]:
+    """
+    Filter columns based on text input and return limited results with info text.
+    
+    Args:
+        columns: List of column names
+        filter_text: Text to filter by (case-insensitive)
+        max_display: Maximum number of columns to show
+        
+    Returns:
+        Tuple of (filtered_columns, info_text)
+    """
+    if not filter_text.strip():
+        # No filter - show first max_display columns
+        filtered = columns[:max_display]
+        if len(columns) > max_display:
+            info_text = f"Only {max_display} out of {len(columns)} column names shown, start typing column name to see all column names matching the text"
+        else:
+            info_text = ""
+    else:
+        # Filter by text
+        filter_lower = filter_text.lower()
+        filtered = [col for col in columns if filter_lower in col.lower()]
+        if len(filtered) > max_display:
+            filtered = filtered[:max_display]
+            info_text = f"Showing {max_display} out of {len([col for col in columns if filter_lower in col.lower()])} matching columns"
+        else:
+            info_text = f"Found {len(filtered)} matching columns"
+    
+    return filtered, info_text
+
+
 def ui_logic(
     file_left,
     file_right,
+    left_filter: str,
     left_keys: List[str],
+    right_filter: str,
     right_keys: List[str],
+    target_filter: str,
     target_col: str,
     embed_mode: str,
     embed_dim: Optional[int],
@@ -134,7 +169,9 @@ def ui_logic(
 
 
 def app():
-    with gr.Blocks(title="Simulacra GUI") as demo:
+    with gr.Blocks(title="Simulacra GUI", css="""
+        .italic-text { font-style: italic; color: #666; font-size: 0.9em; }
+    """) as demo:
         gr.Markdown("# Simulacra — Biologist-Friendly Interface")
         gr.Markdown("Upload your data, choose a target, optionally join another table, select embeddings and synthesis mode, then run.")
 
@@ -144,9 +181,15 @@ def app():
                 file_right = gr.File(label="Optional: second dataframe to join (CSV/Parquet)")
                 accession = gr.Textbox(label="Session ID (used as accession)", value="USER")
 
+                left_filter = gr.Textbox(label="Filter left columns", placeholder="Type to filter column names...")
+                left_info = gr.Markdown("", elem_classes=["italic-text"])
                 left_keys = gr.CheckboxGroup(choices=[], label="Left join keys (from primary)")
+                right_filter = gr.Textbox(label="Filter right columns", placeholder="Type to filter column names...")
+                right_info = gr.Markdown("", elem_classes=["italic-text"])
                 right_keys = gr.CheckboxGroup(choices=[], label="Right join keys (from second)")
 
+                target_filter = gr.Textbox(label="Filter target columns", placeholder="Type to filter column names...")
+                target_info = gr.Markdown("", elem_classes=["italic-text"])
                 target_col = gr.Dropdown(choices=[], label="Target column", interactive=True)
 
                 embed_mode = gr.Radio([
@@ -167,29 +210,45 @@ def app():
                 results_df = gr.Dataframe(label="Results", interactive=False)
                 csv_out = gr.File(label="Download CSV")
 
-        def on_file_change(left, right):
+        def on_file_change(left, right, left_filt="", right_filt="", target_filt=""):
             df_left = load_dataframe_from_file(left) if left else None
             df_right = load_dataframe_from_file(right) if right else None
+            
             left_cols = list(df_left.columns) if df_left is not None else []
             right_cols = list(df_right.columns) if df_right is not None else []
+            
+            # Filter columns based on text input
+            left_filtered, left_info = filter_columns(left_cols, left_filt)
+            right_filtered, right_info = filter_columns(right_cols, right_filt)
+            target_filtered, target_info = filter_columns(left_cols, target_filt)
+            
             # Default preselect leftmost column(s): pick first column
-            default_left = [left_cols[0]] if left_cols else []
-            default_right = [right_cols[0]] if right_cols else []
+            default_left = [left_filtered[0]] if left_filtered else []
+            default_right = [right_filtered[0]] if right_filtered else []
+            
             return (
                 build_preview_html(df_left, highlight_cols=default_left) if df_left is not None else "",
                 build_preview_html(df_right, highlight_cols=default_right) if df_right is not None else "",
                 dataframe_shape_str(df_left) if df_left is not None else "",
-                gr.update(choices=left_cols, value=default_left),
-                gr.update(choices=right_cols, value=default_right),
-                gr.update(choices=left_cols, value=left_cols[0] if left_cols else None),
+                gr.update(choices=left_filtered, value=default_left),
+                gr.update(choices=right_filtered, value=default_right),
+                gr.update(choices=target_filtered, value=target_filtered[0] if target_filtered else None),
+                left_info,
+                right_info,
+                target_info,
             )
 
-        file_left.change(on_file_change, inputs=[file_left, file_right], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col])
-        file_right.change(on_file_change, inputs=[file_left, file_right], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col])
+        file_left.change(on_file_change, inputs=[file_left, file_right, left_filter, right_filter, target_filter], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col, left_info, right_info, target_info])
+        file_right.change(on_file_change, inputs=[file_left, file_right, left_filter, right_filter, target_filter], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col, left_info, right_info, target_info])
+        
+        # Add filter change handlers
+        left_filter.change(on_file_change, inputs=[file_left, file_right, left_filter, right_filter, target_filter], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col, left_info, right_info, target_info])
+        right_filter.change(on_file_change, inputs=[file_left, file_right, left_filter, right_filter, target_filter], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col, left_info, right_info, target_info])
+        target_filter.change(on_file_change, inputs=[file_left, file_right, left_filter, right_filter, target_filter], outputs=[preview_left, preview_right, data_shape, left_keys, right_keys, target_col, left_info, right_info, target_info])
 
         run_btn.click(
             ui_logic,
-            inputs=[file_left, file_right, left_keys, right_keys, target_col, embed_mode, embed_dim, synth_mode, accession],
+            inputs=[file_left, file_right, left_filter, left_keys, right_filter, right_keys, target_filter, target_col, embed_mode, embed_dim, synth_mode, accession],
             outputs=[preview_left, preview_right, data_shape, results_df, csv_out]
         )
 
