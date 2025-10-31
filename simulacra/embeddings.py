@@ -1,5 +1,7 @@
 import os, glob, torch, pandas as pd
+import numpy as np
 from datetime import datetime
+from typing import List
 from tqdm import tqdm
 from pythae.models import VAE, VAEConfig
 from pythae.trainers import BaseTrainerConfig
@@ -24,6 +26,70 @@ def find_model_path(model_dir):
     if os.path.exists(final_model_path):
         return final_model_path
     return None
+
+# TODO: this function and the next one should be merged into a single function that takes a dataframe and generates embeddings for it
+def generate_embeddings_for_samples(
+    accession: str, 
+    sample_ids: List[str], 
+    n_dnam_cols: int = 100, 
+    latent_dim: int = 512
+) -> pd.DataFrame:
+    """
+    Generate embeddings for specific samples only (prevents information leakage).
+    
+    Args:
+        accession (str): GSE accession number
+        sample_ids (List[str]): List of sample IDs to generate embeddings for
+        n_dnam_cols (int): Number of DNAm columns
+        latent_dim (int): Latent dimension for VAE
+    
+    Returns:
+        pd.DataFrame: Embeddings for the specified samples
+    """
+    _log(f"Generating embeddings for {len(sample_ids)} specific samples...")
+    
+    data_dir = "2_poc_simulacra"
+    model_dir = os.path.join(data_dir, f"{accession}_vae_model")
+    dnam_path = os.path.join(data_dir, "dnam.csv")
+    metadata_path = os.path.join(data_dir, "metadata.csv")
+    
+    # Load the trained model
+    model_path = find_model_path(model_dir)
+    if not model_path:
+        raise FileNotFoundError(f"VAE model not found. Train model first using generate_embeddings_with_pythae")
+    
+    model = VAE.load_from_folder(model_path)
+    model.eval()
+    _log("VAE model loaded successfully")
+    
+    # Load metadata to get sample indices
+    metadata_df = pd.read_csv(metadata_path, index_col=0)
+    
+    # Load DNAm data
+    dnam_df = pd.read_csv(dnam_path, usecols=range(n_dnam_cols + 1), index_col=0)
+    
+    # Filter to only the requested samples
+    available_samples = dnam_df.index.intersection(sample_ids)
+    if len(available_samples) != len(sample_ids):
+        missing = set(sample_ids) - set(available_samples)
+        _log(f"Warning: {len(missing)} samples not found in DNAm data")
+    
+    dnam_subset = dnam_df.loc[available_samples].select_dtypes(include=[np.number])
+    
+    # Generate embeddings
+    embeddings_list = []
+    with torch.no_grad():
+        for sample_id in available_samples:
+            sample_data = dnam_subset.loc[sample_id].values
+            X_tensor = torch.tensor(sample_data, dtype=torch.float32).unsqueeze(0)
+            embedding = model.encoder(X_tensor)['embedding'].cpu().numpy().squeeze()
+            embeddings_list.append(pd.Series(embedding, index=[f'emb_{i}' for i in range(latent_dim)], name=sample_id))
+    
+    embeddings_df = pd.DataFrame(embeddings_list)
+    _log(f"Generated embeddings for {len(embeddings_df)} samples")
+    
+    return embeddings_df
+
 
 def generate_embeddings_with_pythae(accession: str, n_dnam_cols: int = 100, latent_dim: int = 512, epochs: int = 20):
     """

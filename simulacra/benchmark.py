@@ -19,6 +19,7 @@ from sdv.single_table import (
     GaussianCopulaSynthesizer,
 )
 from sdv.evaluation.single_table import evaluate_quality
+from simulacra.quality_metrics import evaluate_synthetic_quality
 from simulacra.log import _log
 from simulacra.embeddings import (
     generate_embeddings_with_pythae,
@@ -103,7 +104,8 @@ def optimize_synthesizer_hyperparameters(
     
     if synthesizer_type == 'GaussianCopula':
         # Test different default distributions
-        candidates = ['gaussian_kde', 'norm', 'truncnorm', 'gamma', 'beta'][:num_candidates]
+        dist_candidates = ['gaussian_kde', 'norm', 'truncnorm', 'gamma', 'beta']
+        candidates = dist_candidates[:num_candidates]
         
         for dist in candidates:
             # Create fresh metadata for each synthesizer
@@ -114,59 +116,75 @@ def optimize_synthesizer_hyperparameters(
             synthesizers[dist] = synth
             
     elif synthesizer_type == 'CTGAN':
-        # Test different CTGAN configurations
-        candidates = ['default', 'epochs_100', 'epochs_200', 'batch_500', 'batch_1000'][:num_candidates]
+        # Expanded CTGAN configurations
+        full_candidates = [
+            ('default', {}),
+            ('epochs_100', {'epochs': 100}),
+            ('epochs_200', {'epochs': 200}),
+            ('batch_500', {'batch_size': 500}),
+            ('batch_1000', {'batch_size': 1000}),
+            ('pac_2', {'pac': 2}),
+            ('pac_4', {'pac': 4}),
+            ('disc_steps_5', {'discriminator_steps': 5}),
+            ('disc_steps_10', {'discriminator_steps': 10}),
+            ('dims_small', {'generator_dim': (64, 64), 'discriminator_dim': (64, 64)}),
+            ('dims_large', {'generator_dim': (256, 256), 'discriminator_dim': (256, 256)}),
+        ]
+        selected = full_candidates[:max(1, num_candidates)]
         
-        for config in candidates:
+        for config, kwargs in selected:
             # Create fresh metadata for each synthesizer
             synth_metadata = SingleTableMetadata()
             synth_metadata.detect_from_dataframe(train_data)
-            
-            if config == 'default':
-                synth = CTGANSynthesizer(synth_metadata, cuda=use_cuda)
-            elif config == 'epochs_100':
-                synth = CTGANSynthesizer(synth_metadata, epochs=100, cuda=use_cuda)
-            elif config == 'epochs_200':
-                synth = CTGANSynthesizer(synth_metadata, epochs=200, cuda=use_cuda)
-            elif config == 'batch_500':
-                synth = CTGANSynthesizer(synth_metadata, batch_size=500, cuda=use_cuda)
-            elif config == 'batch_1000':
-                synth = CTGANSynthesizer(synth_metadata, batch_size=1000, cuda=use_cuda)
-            else:
-                raise ValueError(f"Unknown CTGAN config: {config}")
-            
+            synth = CTGANSynthesizer(synth_metadata, cuda=use_cuda, **kwargs)
             synth.fit(train_data)
             synthesizers[config] = synth
             
     elif synthesizer_type == 'TVAE':
-        # Test different TVAE configurations
-        candidates = ['default', 'epochs_100', 'epochs_200', 'batch_500', 'batch_1000'][:num_candidates]
+        # Expanded TVAE configurations
+        full_candidates = [
+            ('default', {}),
+            ('epochs_100', {'epochs': 100}),
+            ('epochs_200', {'epochs': 200}),
+            ('batch_500', {'batch_size': 500}),
+            ('batch_1000', {'batch_size': 1000}),
+            ('latent_32', {'embedding_dim': 32}),
+            ('latent_128', {'embedding_dim': 128}),
+            ('compress_small', {'compress_dims': (64, 32), 'decompress_dims': (32, 64)}),
+            ('compress_large', {'compress_dims': (256, 128), 'decompress_dims': (128, 256)}),
+        ]
+        selected = full_candidates[:max(1, num_candidates)]
         
-        for config in candidates:
+        for config, kwargs in selected:
             # Create fresh metadata for each synthesizer
             synth_metadata = SingleTableMetadata()
             synth_metadata.detect_from_dataframe(train_data)
-            
-            if config == 'default':
-                synth = TVAESynthesizer(synth_metadata, cuda=use_cuda)
-            elif config == 'epochs_100':
-                synth = TVAESynthesizer(synth_metadata, epochs=100, cuda=use_cuda)
-            elif config == 'epochs_200':
-                synth = TVAESynthesizer(synth_metadata, epochs=200, cuda=use_cuda)
-            elif config == 'batch_500':
-                synth = TVAESynthesizer(synth_metadata, batch_size=500, cuda=use_cuda)
-            elif config == 'batch_1000':
-                synth = TVAESynthesizer(synth_metadata, batch_size=1000, cuda=use_cuda)
-            else:
-                raise ValueError(f"Unknown TVAE config: {config}")
-            
+            synth = TVAESynthesizer(synth_metadata, cuda=use_cuda, **kwargs)
             synth.fit(train_data)
             synthesizers[config] = synth
     else:
         raise ValueError(f"Unknown synthesizer type: {synthesizer_type}")
     
-    # Evaluate each synthesizer
-    quality_scores = {}
+    # Evaluate each synthesizer: SDV quality + simple utility on validation split
+    quality_scores: Dict[str, float] = {}
+    combined_scores: Dict[str, float] = {}
+    # Prepare a small validation split from train_data
+    try:
+        from sklearn.model_selection import train_test_split as _tts
+        from sklearn.linear_model import RidgeClassifier as _Ridge
+        from sklearn.preprocessing import StandardScaler as _SS
+        from sklearn.pipeline import Pipeline as _Pipe
+        
+        y_col = 'disease'
+        X_all = train_data.drop(columns=[y_col])
+        y_all = train_data[y_col]
+        X_tr, X_val, y_tr, y_val = _tts(X_all, y_all, test_size=0.2, random_state=42, stratify=y_all if y_all.nunique() > 1 else None)
+        base_model = _Pipe([('scaler', _SS(with_mean=False)), ('ridge', _Ridge(random_state=42))])
+        base_model.fit(X_tr, y_tr)
+        base_acc = float(accuracy_score(y_val, base_model.predict(X_val)))
+    except Exception as _e:
+        base_acc = 0.0
+    
     for config, synth in synthesizers.items():
         try:
             synth_samples = synth.sample(num_rows=int(min(sample_size, len(train_data))))
@@ -175,15 +193,33 @@ def optimize_synthesizer_hyperparameters(
             eval_metadata.detect_from_dataframe(train_data)
             report = evaluate_quality(real_data=train_data, synthetic_data=synth_samples, metadata=eval_metadata)
             raw_score = report.get_score()
-            score = float(raw_score) if raw_score is not None else 0.0
-            quality_scores[config] = score
-            _log(f"{synthesizer_type} - {config}: quality score = {score:.4f}")
+            sdv_score = float(raw_score) if raw_score is not None else 0.0
+            quality_scores[config] = sdv_score
+            
+            # Utility: train on augmented mini-train, eval on val
+            try:
+                aug_tr = pd.concat([X_tr.assign(disease=y_tr.values), synth_samples], axis=0, ignore_index=True)
+                X_aug = aug_tr.drop(columns=[y_col])
+                y_aug = aug_tr[y_col]
+                aug_model = _Pipe([('scaler', _SS(with_mean=False)), ('ridge', _Ridge(random_state=42))])
+                aug_model.fit(X_aug, y_aug)
+                util_acc = float(accuracy_score(y_val, aug_model.predict(X_val)))
+            except Exception:
+                util_acc = base_acc
+            
+            # Combine scores (weights can be tuned)
+            combined = 0.5 * sdv_score + 0.5 * max(0.0, util_acc - base_acc)
+            combined_scores[config] = combined
+            _log(f"{synthesizer_type} - {config}: SDV={sdv_score:.4f}, UtilityΔ={util_acc - base_acc:.4f}, Combined={combined:.4f}")
         except Exception as e:
-            _log(f"{synthesizer_type} - {config}: failed with error {e}")
+            _log(f"{synthesizer_type} - {config}: evaluation failed with error {e}")
             quality_scores[config] = 0.0
+            combined_scores[config] = -1.0
     
     # Select best configuration
-    best_config = sorted(quality_scores.items(), key=lambda kv: kv[1], reverse=True)[0][0]
+    # Prefer combined score when available
+    score_source = combined_scores if combined_scores else quality_scores
+    best_config = sorted(score_source.items(), key=lambda kv: kv[1], reverse=True)[0][0]
     best_synth = synthesizers[best_config]
     _log(f"Best {synthesizer_type} configuration: {best_config}")
     
@@ -313,10 +349,19 @@ def benchmark_classifiers(
     y_test = cast(pd.Series, y_test)
     _log(f"Split sizes - Train: {len(X_train)}, Test: {len(X_test)}")
 
+    # Feature scaling for synthesis (fit on train only)
+    synth_scaler = StandardScaler(with_mean=True, with_std=True)
+    X_train_scaled_arr = synth_scaler.fit_transform(X_train)
+    X_train_scaled = pd.DataFrame(X_train_scaled_arr, columns=X_train.columns, index=X_train.index)
+
     # Train baseline
     # Concatenate target and features into a single training DataFrame
     train_df: pd.DataFrame = pd.concat([y_train, X_train], axis=1)
     train_df.columns = ["disease"] + list(X_train.columns)
+
+    # Scaled version for synthesizer training
+    train_df_scaled: pd.DataFrame = pd.concat([y_train, X_train_scaled], axis=1)
+    train_df_scaled.columns = ["disease"] + list(X_train.columns)
 
     _log("=== Training Baseline Classifier (no augmentation) ===")
     baseline_model, baseline_metrics = train_ridge_classifier_fair(  # type: ignore[arg-type]
@@ -369,7 +414,8 @@ def benchmark_classifiers(
             # Always create fresh metadata to ensure proper structure
             _log(f"Creating metadata for {synth_name}...")
             metadata = Metadata()
-            metadata.detect_from_dataframe(train_df)
+            # Detect from scaled data to match synthesizer training space
+            metadata.detect_from_dataframe(train_df_scaled)
             
             # Save metadata for reproducibility
             metadata.save_to_json(metadata_path)
@@ -381,7 +427,7 @@ def benchmark_classifiers(
             synth: Any
             synth, best_config = optimize_synthesizer_hyperparameters(
                 synthesizer_type=synth_name,
-                train_data=train_df,
+                train_data=train_df_scaled,
                 metadata=metadata,
                 num_candidates=5,
                 sample_size=2000,
@@ -403,25 +449,102 @@ def benchmark_classifiers(
             f"{synth_name} synthesizer training completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
         )
 
+        # Conditional synthesis per class to preserve label distribution
         max_multiplier = max(multipliers_t) if multipliers_t else 1
-        _log(f"Generating {max_multiplier}x synthetic data with {synth_name} (LONG OPERATION)...")
-        synthetic_data_all = synth.sample(num_rows=len(train_df) * int(max_multiplier))
+        _log(f"Generating {max_multiplier}x synthetic data with {synth_name} using class-conditional sampling (LONG OPERATION)...")
+        class_counts = y_train.value_counts()
+        synthetic_pools_scaled: Dict[Any, pd.DataFrame] = {}
+        for cls_label, cls_count in class_counts.items():
+            desired_rows = int(cls_count * max_multiplier)
+            if desired_rows <= 0:
+                continue
+            try:
+                # Use conditional sampling if available
+                known = pd.DataFrame({"disease": [cls_label] * desired_rows})
+                synth_cls = synth.sample_remaining_columns(known_columns=known)
+            except Exception:
+                # Fallback: sample many rows and filter
+                synth_many = synth.sample(num_rows=max(desired_rows * 2, desired_rows + 50))
+                if "disease" in synth_many.columns:
+                    synth_cls = synth_many[synth_many["disease"] == cls_label].head(desired_rows)
+                    if len(synth_cls) < desired_rows:
+                        # Top up if insufficient
+                        synth_extra = synth.sample(num_rows=desired_rows - len(synth_cls))
+                        synth_extra["disease"] = cls_label
+                        synth_cls = pd.concat([synth_cls, synth_extra], ignore_index=True)
+                else:
+                    synth_many["disease"] = cls_label
+                    synth_cls = synth_many.head(desired_rows)
+            synthetic_pools_scaled[cls_label] = synth_cls
+
+        # Merge class pools
+        synthetic_data_all_scaled = pd.concat(list(synthetic_pools_scaled.values()), axis=0, ignore_index=True)
         _log(
             f"Synthetic data generation completed in {(datetime.now() - step_start).total_seconds():.2f} seconds"
         )
 
         for multiplier in multipliers_t:
             _log(f"Testing {synth_name} with {multiplier}x augmentation...")
-            num_needed = int(len(train_df) * multiplier)
-            synthetic_subset = synthetic_data_all.iloc[:num_needed]
+            # Build per-class subset for this multiplier
+            synth_parts = []
+            for cls_label, cls_count in class_counts.items():
+                need = int(cls_count * multiplier)
+                pool_cls = synthetic_pools_scaled.get(cls_label, pd.DataFrame(columns=train_df_scaled.columns))
+                synth_parts.append(pool_cls.iloc[:need])
+            synthetic_subset_scaled = pd.concat(synth_parts, axis=0, ignore_index=True)
 
-            augmented_train = pd.concat([train_df, synthetic_subset], axis=0, ignore_index=True)
+            # Inverse scale features back to original space
+            if not synthetic_subset_scaled.empty:
+                synth_y = synthetic_subset_scaled["disease"].reset_index(drop=True)
+                synth_X_scaled = synthetic_subset_scaled.drop(columns=["disease"])  # same columns as X_train
+                synth_X_inv = pd.DataFrame(
+                    synth_scaler.inverse_transform(synth_X_scaled),
+                    columns=X_train.columns,
+                )
+                synthetic_subset = pd.concat([synth_y, synth_X_inv], axis=1)
+                synthetic_subset.columns = ["disease"] + list(X_train.columns)
+            else:
+                synthetic_subset = pd.DataFrame(columns=["disease"] + list(X_train.columns))
+
+            # Validation-guided accept/reject of synthetic augmentation
+            # Create a small validation split from the original train
+            from sklearn.model_selection import train_test_split as _tts
+            X_tr0, X_val0, y_tr0, y_val0 = _tts(
+                X_train, y_train, test_size=0.2, random_state=seed, stratify=y_train
+            )
+            # Baseline on val
+            base_model_tmp, _ = train_ridge_classifier_fair(X_tr0, y_tr0, X_val0, y_val0, random_state=seed)
+            base_val_acc = float(
+                accuracy_score(y_val0, base_model_tmp.predict(X_val0))
+            )
+
+            # Augmented on val (merge synthetic with original training partition only)
+            aug_tr_df = pd.concat(
+                [pd.concat([y_tr0, X_tr0], axis=1).set_axis(["disease"] + list(X_train.columns), axis=1), synthetic_subset],
+                axis=0,
+                ignore_index=True,
+            )
+            X_tr_aug = cast(pd.DataFrame, aug_tr_df.drop(columns=["disease"]))
+            y_tr_aug = cast(pd.Series, aug_tr_df["disease"]) 
+            aug_model_tmp, _ = train_ridge_classifier_fair(X_tr_aug, y_tr_aug, X_val0, y_val0, random_state=seed)
+            aug_val_acc = float(
+                accuracy_score(y_val0, aug_model_tmp.predict(X_val0))
+            )
+
+            use_augmentation = aug_val_acc >= base_val_acc
+
+            augmented_train = pd.concat([train_df, synthetic_subset], axis=0, ignore_index=True) if use_augmentation else train_df
             X_aug = cast(pd.DataFrame, augmented_train.drop(columns=["disease"]))
             y_aug = cast(pd.Series, augmented_train["disease"])
 
             augmented_model, augmented_metrics = train_ridge_classifier_fair(  # type: ignore[arg-type]
                 X_aug, y_aug, X_test, y_test, random_state=seed
             )
+            # Compute quality metrics on synthetic subset vs real train
+            try:
+                quality_metrics = evaluate_synthetic_quality(real_data=train_df, synthetic_data=synthetic_subset, target_col="disease")
+            except Exception as _e:
+                quality_metrics = {"quality_error": str(_e)}
             results[f"{synth_name}_{int(multiplier) if float(multiplier).is_integer() else multiplier}x"] = {
                 "model": augmented_model,
                 "metrics": augmented_metrics,
@@ -429,6 +552,8 @@ def benchmark_classifiers(
                 "multiplier": multiplier,
                 "synthesizer": synth,
                 "hyperparameters": best_config,
+                "quality": quality_metrics,
+                "val_guided": {"used": use_augmentation, "base_val_acc": base_val_acc, "aug_val_acc": aug_val_acc},
             }
 
         _log(
@@ -529,26 +654,42 @@ def save_results_to_csv(
     metadata_path = os.path.join(data_dir, "metadata.csv")
 
     csv_data: List[Dict[str, Any]] = []
+    quality_keys = [
+        "discriminator_accuracy",
+        "discriminator_precision",
+        "discriminator_recall",
+        "correlation_mad",
+        "avg_nn_distance",
+        "min_nn_distance",
+        "class_distribution_difference",
+    ]
+
     for seed, results in all_results.items():
         for method, result_data in results.items():
             metrics = result_data["metrics"]
-            csv_data.append(
-                {
-                    "accession": accession,
-                    "dnam_path": dnam_path,
-                    "metadata_path": metadata_path,
-                    "target_column": target_column,
-                    "seed": seed,
-                    "method": method,
-                    "multiplier": result_data.get("multiplier", None),
-                    "hyperparameters": result_data.get("hyperparameters", None),
-                    "accuracy": metrics["accuracy"],
-                    "f1_macro": metrics["f1_macro"],
-                    "test_size": metrics["test_size"],
-                    "train_size": result_data["train_size"],
-                    "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                }
-            )
+            quality = result_data.get("quality", {}) or {}
+
+            row: Dict[str, Any] = {
+                "accession": accession,
+                "dnam_path": dnam_path,
+                "metadata_path": metadata_path,
+                "target_column": target_column,
+                "seed": seed,
+                "method": method,
+                "multiplier": result_data.get("multiplier", None),
+                "hyperparameters": result_data.get("hyperparameters", None),
+                "accuracy": metrics["accuracy"],
+                "f1_macro": metrics["f1_macro"],
+                "test_size": metrics["test_size"],
+                "train_size": result_data["train_size"],
+                "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            }
+
+            # Flatten selected quality metrics into CSV
+            for k in quality_keys:
+                row[f"quality_{k}"] = quality.get(k)
+
+            csv_data.append(row)
 
     for method, stats in summary_stats.items():
         csv_data.append(
